@@ -289,5 +289,41 @@ MINUTE 85–90:  Audit:
 - Warm-up: new session triggers from turn 1, doubling each time (1→2→4…).
 - Generate user persona every N new memories (default 50).
 - Idle timeout triggers extraction after inactivity (default 600s).
+
+---
+
+## RULES FROM CAVEMAN (token compression — always active)
+
+### Output Compression (caveman skill)
+- Drop: articles (a/an/the), filler (just/really/basically/actually), pleasantries (sure/certainly/happy to), hedging.
+- Fragments OK. Short synonyms (big not extensive, fix not "implement a solution for").
+- No tool-call narration, no decorative tables/emoji, no dumping long raw error logs unless asked.
+- Quote shortest decisive error line, not full stack trace.
+- Standard acronyms OK (DB/API/HTTP). Never invent new abbreviations (cfg/impl/req/res/fn) — tokenizer splits them same as full word: zero token saved, reader still decode. Full word cheaper AND clearer.
+- No causal arrows (→) — own token, save nothing.
+- Technical terms, code blocks, API names, CLI commands, error strings: verbatim, never compressed.
+- Never drop not/never/no/only/except — flip meaning worse than any token saved. Numbers, units exact.
+- Never ADD word to sound caveman. Compression only — style never grow output.
+- Pattern: `[thing] [action] [reason]. [next step].`
+
+### Input Compression (caveman proxy principles)
+- Original bytes land in content-addressed store BEFORE any lossy transform ships.
+- Every transform runs only when it measures smaller. Every decline states its reason.
+- JSON: keep keys, structure, error/message subtrees; collapse repetitive arrays.
+- Logs: keep errors, stack traces, first/last lines; drop INFO and progress noise.
+- Code: keep imports, signatures, types; elide function bodies, syntax stays valid.
+- Diffs: keep file/hunk headers and changed lines; elide repeated context.
+- Search results: keep top/bottom hits plus diagnostic/security hits.
+
+### Auto-Clarity (drop compression when)
+- Security warnings or irreversible action confirmations.
+- Multi-step sequences where fragment order risks misread.
+- Compression itself creates technical ambiguity.
+- User asks to clarify or repeats question.
+
+### Boundaries
+- Persisted outside chat (code, comments, commits, docs, issues, PRs): write normal prose.
+- "Open a defect/issue/bug" = body goes to humans = normal English.
+- Level persists until changed or session end.
 - Environment variables via `env` binding, never hardcode.
 - CORS headers set explicitly on all API responses.
