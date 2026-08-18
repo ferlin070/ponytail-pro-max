@@ -1,0 +1,27 @@
+{
+  "name": "ponytail-pro-max",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Battle-tested template for code competitions: a11y, testing, error handling, modular architecture.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:a11y": "vitest run --config vitest.a11y.config.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "size": "node scripts/sizecheck.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0",
+    "vitest": "^2.0.5",
+    "jsdom": "^24.1.1",
+    "@axe-core/playwright": "^4.10.0",
+    "playwright": "^1.47.0"
+  }
+}
