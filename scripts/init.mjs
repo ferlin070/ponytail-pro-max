@@ -152,5 +152,5 @@ console.log('      3. Edit src/storage.ts — type guard + store');
 console.log('      4. Fill src/main.ts render()/events');
 console.log('      5. npm run verify  →  push');
 
-// best-effort regenerate lockfile name
-spawnSync('npm', ['install', '--no-audit', '--no-fund'], { stdio: 'inherit' });
+// best-effort regenerate lockfile name (Windows resolves npm as npm.cmd — shell:true portable)
+spawnSync('npm', ['install', '--no-audit', '--no-fund'], { stdio: 'inherit', shell: process.platform === 'win32' });
