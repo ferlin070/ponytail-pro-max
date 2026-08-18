@@ -384,3 +384,9 @@
 - **URL**: https://github.com/Leonxlnx/taste-skill
 - **What it contributed**: Anti-slop frontend framework for AI agents — 3 design dials, specialized skill variants, image-generation skills, redesign audit protocol.
 - **Key patterns**: DESIGN_VARIANCE / MOTION_INTENSITY / VISUAL_DENSITY dials (1-10). Hard em-dash ban. Pre-flight check (no truncation/placeholders). 8 specialized variants (default, GPT, soft, minimalist, brutalist, image-to-code, redesign, output-enforcement). Image-gen skills for web/mobile/brand reference boards. Stitch-compatible DESIGN.md export.
+
+## 62. Impeccable
+- **Repo**: `pbakaus/impeccable`
+- **URL**: https://github.com/pbakaus/impeccable
+- **What it contributed**: 23-command design vocabulary, 59 deterministic detector rules, design hook, build path (comp-first/code-first), explicit anti-patterns.
+- **Key patterns**: Init-first context (PRODUCT.md + DESIGN.md). 23 commands (audit, polish, critique, harden, animate, etc.). 59 rules run without LLM/API key. Design hook on UI edits (block before / surface after). Comp-first vs code-first build path. Anti-patterns: no overused fonts, no gray-on-color, no card nesting, no bounce easing.

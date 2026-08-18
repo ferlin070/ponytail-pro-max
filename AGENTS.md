@@ -842,3 +842,49 @@ When working with existing code during a competition:
 ### Stitch-Compatible Design Export
 - Optional `DESIGN.md` export format compatible with Google Stitch.
 - Pairs with DESIGN.md pattern (source #19): design system as plain text AI agents read.
+
+---
+
+## IMPECCABLE DESIGN PATTERNS (from Impeccable — always active)
+
+### Init-First Design Context
+- Start every project with `/impeccable init` — writes `PRODUCT.md` + `DESIGN.md` before code.
+- Gather: audience, brand/product lane (brand=marketing/landing, product=app/dashboard), voice, anti-references, colors, type, components.
+- Every later command reads this context — no design drift across sessions.
+
+### 23-Command Design Vocabulary
+- **Init**: setup context. **Craft**: full shape-then-build with visual iteration.
+- **Shape**: plan UX/UI before code. **Critique**: UX review (hierarchy, clarity, emotion).
+- **Audit**: technical quality (a11y, performance, responsive). **Polish**: final pass + shipping readiness.
+- **Bolder/Quieter/Distill**: amplify/ tone down / strip to essence.
+- **Harden**: error handling, i18n, text overflow, edge cases.
+- **Onboard**: first-run flows, empty states, activation paths.
+- **Animate**: purposeful motion. **Colorize**: strategic color. **Typeset**: font/hierarchy/sizing.
+- **Layout**: spacing, visual rhythm. **Delight**: moments of joy. **Overdrive**: extraordinary effects.
+- **Clarify**: UX copy. **Adapt**: devices. **Optimize**: performance. **Live**: iterate in browser.
+- **Pin**: create standalone shortcuts (`pin audit` → `/audit`).
+
+### 59 Deterministic Detector Rules
+- Run WITHOUT LLM or API key — pure static analysis of generated frontend.
+- Catches AI slop: side-tab borders, purple gradients, bounce easing, dark glows, overused fonts.
+- Catches general quality: line length, cramped padding, small touch targets, skipped headings.
+- CLI: `npx impeccable detect src/` — scan directory, file, or URL.
+- `--json` for CI-friendly output. `--no-config` for raw scan.
+- Inline waivers: `<!-- impeccable-disable overused-font: brand -->` in any comment syntax.
+
+### Design Hook (real-time guard)
+- Hook runs detector on direct UI file edits — surfaces findings back into agent flow.
+- Some providers block bad proposed writes BEFORE they land (Cursor). Others surface AFTER edit.
+- `.impeccable/config.json` = shared project config. `.impeccable/config.local.json` = per-dev override (gitignored).
+
+### Build Path: Comp-First or Code-First
+- Comp-first: generate full-fidelity comp, build to match. Bolder, takes longer.
+- Code-first: build straight in code with ambition in direction contract, check at finish. Leaner, faster.
+- `/impeccable init` asks once, records as `buildPath` in config. Override per-session via footer toggle.
+
+### Explicit Anti-Patterns (avoid at all costs)
+- Don't use overused fonts (Arial, Inter, system defaults).
+- Don't use gray text on colored backgrounds.
+- Don't use pure black/gray (always tint).
+- Don't wrap everything in cards or nest cards inside cards.
+- Don't use bounce/elastic easing (feels dated).
