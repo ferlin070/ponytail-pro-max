@@ -357,5 +357,46 @@ MINUTE 85–90:  Audit:
 - Bash output is ONE contributor to input tokens, alongside prompt, system prompt, and history.
 - Token counts are estimated as bytes/4 — percentages reliable, absolute numbers approximate.
 - Always measure before and after compression — only apply when it's smaller.
+
+---
+
+## RULES FROM HEADROOM (context compression layer — always active)
+
+### Content-Aware Compression
+- Detect content type, route to the right compressor — never one-size-fits-all.
+- JSON (SmartCrusher): compress arrays of dicts, nested objects, mixed types. 60–95% reduction.
+- Code (CodeCompressor): AST-aware — keep imports, signatures, types; elide bodies. 40–70% reduction.
+- Text (Kompress): compress prose, logs, RAG chunks. 50–80% reduction.
+- Images: 40–90% reduction via trained ML router.
+
+### Reversible Compression (CCR)
+- Originals are ALWAYS cached locally before any lossy transform ships.
+- LLM retrieves originals on demand via a retrieval tool.
+- Never do irreversible compression — full traceability required.
+- On parse failure or larger result: send original bytes unchanged.
+
+### Cache Alignment
+- Detect volatile content that busts provider KV cache prefixes.
+- Never rewrite prompts — warn about cache-busting content instead.
+- Frozen prefix stays byte-identical; compress only new bytes (live-zone).
+- History is never dropped.
+
+### Output Token Reduction
+- Trim what the model WRITES BACK, not just what you send.
+- Drop ceremony, restated code, deep "thinking" on routine steps.
+- Verbosity steering: append terse note to end of system prompt (preserves cache).
+- Effort routing: dial thinking DOWN for routine tool results; keep FULL effort for new questions and errors.
+
+### Failure Learning
+- Mine failed sessions for patterns.
+- Write corrections to AGENTS.md (or CLAUDE.local.md for personal, gitignored).
+- Corrections are consent-gated: apply only on user approval.
+- Re-measure after applying — revert anything that didn't lower tokens per turn.
+
+### Cross-Agent Memory
+- Shared context store across agents/sessions.
+- Agent provenance tracked — know which agent wrote what.
+- Auto-dedup with vector similarity.
+- Compressed context passing across multi-agent workflows.
 - Environment variables via `env` binding, never hardcode.
 - CORS headers set explicitly on all API responses.
