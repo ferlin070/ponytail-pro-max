@@ -138,3 +138,9 @@
 | Security & Pentesting | #3 (Camoufox), #14 (CAI), #15 (Strix), #16 (PentAGI), #17 (PentestGPT) |
 | Workflow & Orchestration | #18 (Vibe Kanban), #2 (claude-code-templates) |
 | Data Integration | #20 (OpenConnector), #11 (Refine) |
+
+## 21. CodeGraph
+- **Repo**: `colbymchenry/codegraph`
+- **URL**: https://github.com/colbymchenry/codegraph
+- **What it contributed**: Pre-built semantic code graph, surgical context, impact analysis, framework-aware routing, cross-language bridging, auto-sync reliability.
+- **Key patterns**: One `codegraph_explore` call replaces 28-43 grep+read tool calls. Native Rust kernel parses 20+ languages. Auto-sync via OS file watcher with debounced incremental updates. Cross-language bridging (Swift↔ObjC, React Native). Impact radius before changes. 100% local SQLite, no data leaves machine.

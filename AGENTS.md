@@ -461,3 +461,45 @@ When a competition brief needs data integration or sync:
 3. Track sync state per object (hash comparison) — avoid redundant work.
 4. Expose endpoints as reverse proxy with rule chaining.
 5. Emit events for real-time updates — don't poll.
+
+---
+
+## CODEGRAPH PATTERNS (semantic code intelligence — always active)
+
+### Pre-built Knowledge Graph
+- Before answering code questions, check if a code graph index exists (`.codegraph/`).
+- One `codegraph_explore` call = relevant symbols' verbatim source + call paths + blast radius.
+- Eliminates grep/glob/Read file-by-file crawling — agent gets surgical context in one call.
+- Graph is always fresh: native OS file watcher (FSEvents/inotify/ReadDirectoryChangesW) with debounced auto-sync.
+- 100% local: SQLite database only, no data leaves machine, no API keys.
+
+### Impact Analysis
+- Before making a change: trace callers, callees, and full impact radius of any symbol.
+- Dynamic-dispatch hops (callbacks, interface→impl, React re-render) resolved — grep can't follow these.
+- `codegraph affected` traces import dependencies transitively to find which test files are affected by changed source.
+- Blast radius summary returned with every explore call.
+
+### Framework-Aware Routing
+- Detects web-framework routing files and links URL patterns to handlers.
+- Supports 17+ frameworks: Django, Flask, FastAPI, Express, NestJS, Laravel, Rails, Spring, Gin, ASP.NET, Vapor, React Router, SvelteKit, Vue Router, Nuxt, Astro.
+
+### Cross-Language Bridging
+- Swift ↔ ObjC auto-bridging (@objc rules + Cocoa preposition prefixes).
+- React Native legacy bridge + TurboModules + Fabric view components.
+- Native → JS event emitters (synthesized cross-language event channel).
+- Expo Modules DSL parsing.
+- Call paths and blast radius cross language boundaries instead of stopping.
+
+### Auto-Sync Reliability
+- File watcher with debounced auto-sync (default 2000ms, bursts collapse into one sync).
+- Per-file staleness banner: MCP responses reference pending files with `⚠️` telling agent to `Read` directly.
+- Connect-time catch-up: fast (size, mtime) + content-hash reconciliation absorbs edits made while no MCP server was running.
+- Agent never gets a silent wrong answer in the edit→sync window.
+
+### Competition Application
+When working with existing code during a competition:
+1. Run `codegraph init` to build the graph — one command, done.
+2. Use `codegraph_explore` for architecture questions instead of grep+read.
+3. Check impact radius before making changes — know what breaks.
+4. Trust the graph — don't re-verify with grep (wastes tokens).
+5. If no index exists, fall back to built-in tools cleanly — indexing is always your choice.
