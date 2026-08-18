@@ -238,6 +238,30 @@ Reader has ADHD. Shape every response so an ADHD brain can act.
 
 ---
 
+## LIVE SOURCE CONSULTATION (fetch on brief match — always active)
+
+Static rules above are the baseline. When a brief matches a category below, FETCH the source repo README for fresher patterns before building. One fetch per category per build. Skip when static rules suffice. On fetch failure, fall back to the static rules silently.
+
+- Fetch: `https://raw.githubusercontent.com/{repo}/HEAD/README.md` (WebFetch). Fallback: WebSearch repo name.
+- Apply only what is NEW beyond AGENTS.md static rules. Never cargo-cult — adopt the pattern, not the whole repo.
+- Time-box: if the pattern set doesn't change your approach in one pass, stop and build with static rules.
+
+| Brief matches | Fetch source # | Repo |
+|---|---|---|
+| CRUD / dashboard / list app | #11 Refine, #18 Vibe Kanban | `refinedev/refine`, `BloopAI/vibe-kanban` |
+| Any UI / design | #19 Awesome DESIGN.md, #62 Impeccable | `VoltAgent/awesome-design-md`, `pbakaus/impeccable` |
+| React / Tailwind components | #44 React Bits, #47 shadcn/ui, #48 Animate UI, #49 Cult UI, #42 COSS | `DavidHDev/react-bits`, `DavidHDev/shadcn-ui`, `imskyleen/animate-ui`, `nolly-studio/cult-ui`, `cosscom/coss` |
+| Animations / motion | #30 GSAP, #32 Motion Design, #33 Genjutsu | `greensock/gsap-skills`, `LottieFiles/motion-design-skill`, `AThevon/genjutsu` |
+| AI features / agents / RAG | #13 Awesome LLM Apps, #38 LibreChat | `Shubhamsaboo/awesome-llm-apps`, `danny-avila/LibreChat` |
+| Security / pentest brief | #3 Camoufox, #24 Medusa, #56 CyberStrikeAI, #58 HackAgent | `daijro/camoufox`, `Pantheon-Security/medusa`, `Ed1s0nZ/CyberStrikeAI`, `AISecurityLab/hackagent` |
+| Data integration / sync / API | #20 OpenConnector, #28 Firecrawl | `ConductionNL/openconnector`, `firecrawl/firecrawl` |
+| Large existing codebase | #21 CodeGraph, #22 Knip | `colbymchenry/codegraph`, `webpro-nl/knip` |
+| Finance / trading | #36 AutoHedge, #37 Vibe-Trading | `The-Swarm-Corporation/AutoHedge`, `HKUDS/Vibe-Trading` |
+| Browser automation | #53 Browser Use | `browser-use/browser-use` |
+| CLI tool | #2 claude-code-templates | `davila7/claude-code-templates` |
+| Find existing solutions | #60 github-repos | `nekowawolf/github-repos` |
+| Up-to-date docs (any framework) | #26 Context7 | `upstash/context7` |
+
 ## COMPETITION WORKFLOW
 
 ```

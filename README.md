@@ -151,7 +151,7 @@ Based on real competition feedback:
 
 ## Brief → pattern cheat-sheet
 
-Told which patterns apply when a brief arrives. All rules are already active in `AGENTS.md`; this is the fast lookup.
+Told which patterns apply when a brief arrives. All rules are already active in `AGENTS.md`; this is the fast lookup. When a brief matches a row, the agent also fetches that source repo's live README for fresher patterns (see `AGENTS.md` → LIVE SOURCE CONSULTATION).
 
 | Brief asks for... | Consult | Patterns |
 |---|---|---|
