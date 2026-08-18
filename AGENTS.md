@@ -806,3 +806,39 @@ When working with existing code during a competition:
 - Curated directory of GitHub repositories across various categories.
 - Discover useful tools, projects, and open-source resources in one place.
 - Consult when looking for existing solutions before building from scratch.
+
+---
+
+## ANTI-SLOP FRONTEND PATTERNS (from Taste Skill — always active)
+
+### Three Design Dials (1-10 scale, tuned per project)
+- **DESIGN_VARIANCE**: Layout experimentation. Low = centered/clean. High = asymmetric/modern.
+- **MOTION_INTENSITY**: Animation depth. Low = hover. High = scroll/magnetic.
+- **VISUAL_DENSITY**: Information per viewport. Low = spacious. High = dense dashboards.
+- Read the brief, infer the design language, then tune these three dials before generating UI.
+
+### Anti-Slop Rules
+- Ban boilerplate-looking UIs — stronger layout, typography, motion, spacing instead.
+- Hard em-dash ban in generated copy.
+- Pre-flight check before output: verify no truncation, no placeholder comments, no half-finished work.
+- Redesign-audit protocol: audit existing UI first (layout, spacing, hierarchy, styling), then fix.
+
+### Specialized Skill Variants (choose by context)
+- **Default**: safest general design taste. Brief inference + design-system map + GSAP skeletons.
+- **GPT/Codex variant**: stricter, higher layout variance, stronger GSAP direction, aggressive anti-slop.
+- **Soft/premium**: softer contrast, whitespace, premium fonts, spring motion.
+- **Minimalist**: editorial (Notion/Linear), restrained palette, crisp structure.
+- **Brutalist**: Swiss type, sharp contrast, experimental layout.
+- **Image-to-code**: generate references → analyze → implement. Image-first pipeline.
+- **Redesign existing**: audit first, then fix — don't restyle blindly.
+- **Output enforcement**: when model ships half-finished work — force full output, no placeholders.
+
+### Image-Generation Skills (reference boards, not code)
+- **Web comps**: hero, landing, multi-section with strong typography + anti-slop art direction.
+- **Mobile flows**: iOS/Android mockups, readable type, coherent sets.
+- **Brand kits**: logo directions, palettes, type, identity applications.
+- Pipeline: generate images → feed to coding agent for implementation.
+
+### Stitch-Compatible Design Export
+- Optional `DESIGN.md` export format compatible with Google Stitch.
+- Pairs with DESIGN.md pattern (source #19): design system as plain text AI agents read.

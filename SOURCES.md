@@ -378,3 +378,9 @@
 - **URL**: https://github.com/nekowawolf/github-repos
 - **What it contributed**: Curated directory of GitHub repositories across categories — discover tools, projects, open-source resources.
 - **Key patterns**: Awesome-list style directory. Consult before building from scratch to find existing solutions.
+
+## 61. Taste Skill
+- **Repo**: `Leonxlnx/taste-skill`
+- **URL**: https://github.com/Leonxlnx/taste-skill
+- **What it contributed**: Anti-slop frontend framework for AI agents — 3 design dials, specialized skill variants, image-generation skills, redesign audit protocol.
+- **Key patterns**: DESIGN_VARIANCE / MOTION_INTENSITY / VISUAL_DENSITY dials (1-10). Hard em-dash ban. Pre-flight check (no truncation/placeholders). 8 specialized variants (default, GPT, soft, minimalist, brutalist, image-to-code, redesign, output-enforcement). Image-gen skills for web/mobile/brand reference boards. Stitch-compatible DESIGN.md export.
