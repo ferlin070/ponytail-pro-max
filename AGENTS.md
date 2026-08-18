@@ -376,3 +376,39 @@ Reader has ADHD. Shape every response so an ADHD brain can act.
 - Human reviews diff → leaves inline comments → agent receives feedback → iterates.
 - No context switching: review, comment, and approve all in one UI.
 - Agent re-runs only the affected parts based on feedback, not full restart.
+
+---
+
+## DESIGN.md PATTERN (from Awesome DESIGN.md — always active)
+
+### What DESIGN.md is
+- A plain-text design system document that AI agents read to generate consistent UI.
+- Just markdown — no Figma exports, no JSON schemas, no special tooling.
+- Drop it into project root, tell agent "build me a page that looks like this."
+- `AGENTS.md` = how to BUILD the project. `DESIGN.md` = how the project should LOOK and FEEL.
+
+### When to create a DESIGN.md
+- Before building any UI, write a DESIGN.md with these 9 sections:
+  1. **Visual Theme & Atmosphere**: mood, density, design philosophy
+  2. **Color Palette & Roles**: semantic name + hex + functional role
+  3. **Typography Rules**: font families, full hierarchy table (display→body→mono)
+  4. **Component Stylings**: buttons, cards, inputs, navigation with all states
+  5. **Layout Principles**: spacing scale, grid, whitespace philosophy
+  6. **Depth & Elevation**: shadow system, surface hierarchy
+  7. **Do's and Don'ts**: design guardrails and anti-patterns
+  8. **Responsive Behavior**: breakpoints, touch targets, collapsing strategy
+  9. **Agent Prompt Guide**: quick color reference, ready-to-use prompts
+
+### Design language reference library
+73 real-world DESIGN.md files available at getdesign.md. Consult before building:
+- **AI/Dev**: Claude, Cursor, Vercel, Warp, Supabase, Linear, Notion
+- **Fintech**: Stripe, Coinbase, Wise, Revolut
+- **E-commerce**: Airbnb, Nike, Shopify, Starbucks
+- **Media**: Apple, Spotify, NVIDIA, Pinterest, WIRED
+- **Automotive**: Tesla, Ferrari, Lamborghini, BMW
+
+### Competition application
+1. Write DESIGN.md before coding UI — it's free bytes (markdown doesn't count toward size).
+2. Pick a design language from the reference library that fits the brief.
+3. Tell agent: "build using DESIGN.md" — UI stays visually consistent.
+4. Every color, font, spacing, shadow defined upfront = no design drift.
