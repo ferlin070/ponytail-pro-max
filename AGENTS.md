@@ -349,3 +349,30 @@ Reader has ADHD. Shape every response so an ADHD brain can act.
 - All operations in isolated Docker containers — complete isolation.
 - Never run untrusted code on host.
 - Smart container management: auto-select Docker image based on task requirements.
+
+---
+
+## VIBE KANBAN PATTERNS (agent orchestration UI — always active)
+
+### Plan → Execute → Review Workflow
+- **Plan with kanban issues**: create, prioritise, assign before any code is written.
+- **Execute in isolated workspaces**: each task gets its own branch + terminal + dev server.
+- **Review diffs inline**: leave comments directly on the diff, send feedback to agent without leaving UI.
+- **Preview app in-browser**: built-in browser with devtools, inspect mode, device emulation.
+- **Ship via PR**: AI-generated PR descriptions, review on GitHub, merge from UI.
+
+### Multi-Agent Orchestration
+- Switch between 10+ coding agents per workspace (Claude, Codex, Gemini, Copilot, Cursor, etc.).
+- Each workspace = one agent + one branch + one terminal — fully isolated.
+- Agent receives the issue description + context, works autonomously, produces a diff for review.
+
+### Workspace Isolation Pattern
+- Git worktree per workspace — each agent works on its own branch, no conflicts.
+- Dev server per workspace — preview changes live without affecting others.
+- Terminal per workspace — agent has full shell access within its sandbox.
+- Cleanup: auto-remove worktree when workspace is closed or merged.
+
+### Feedback Loop (agent ↔ human)
+- Human reviews diff → leaves inline comments → agent receives feedback → iterates.
+- No context switching: review, comment, and approve all in one UI.
+- Agent re-runs only the affected parts based on feedback, not full restart.
