@@ -132,7 +132,16 @@ function boot(): void {
 boot();
 `);
 
-// 4. derived marker
+// 4. index.html title (assert-app guards against the template title)
+const htmlPath = join(ROOT, 'index.html');
+if (existsSync(htmlPath)) {
+  writeFileSync(
+    htmlPath,
+    readFileSync(htmlPath, 'utf8').replace(/<title>.*?<\/title>/, `<title>${pkg.name}</title>`),
+  );
+}
+
+// 5. derived marker
 writeFileSync(join(ROOT, '.ponytail-ready'), '# Derived app scaffolded by scripts/init.mjs\n');
 
 console.log(`  [init] ✅ Scaffolded "${pkg.name}".`);

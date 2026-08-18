@@ -14,10 +14,12 @@
  * Usage: node scripts/verify.mjs   (or npm run verify)
  */
 import { spawnSync } from 'node:child_process';
+import { existsSync } from 'node:fs';
 
 const NO_COLOR = !process.stdout.isTTY;
 const green = (s) => (NO_COLOR ? s : `\x1b[32m${s}\x1b[0m`);
 const red = (s) => (NO_COLOR ? s : `\x1b[31m${s}\x1b[0m`);
+const yellow = (s) => (NO_COLOR ? s : `\x1b[33m${s}\x1b[0m`);
 
 const steps = [
   { name: 'assert-app', cmd: 'node', args: ['scripts/assert-app.mjs'] },
@@ -38,6 +40,10 @@ for (const step of steps) {
   const r = spawnSync(step.cmd, step.args, { stdio: ['ignore', 'inherit', 'inherit'], shell: IS_WIN });
   if (r.status === 0) {
     console.log(`  ${green('✅')} ${step.name}`);
+  } else if (step.name === 'git-status' && !existsSync(new URL('.git', import.meta.url))) {
+    console.log(`  ${red('❌')} git-status — not a git repo yet.`);
+    console.log(`      ${yellow('git init && git add -A && git commit -m "init"')}`);
+    failed = true;
   } else {
     console.log(`  ${red('❌')} ${step.name}`);
     failed = true;
