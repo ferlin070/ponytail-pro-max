@@ -330,3 +330,39 @@
 - **URL**: https://github.com/AbdullahMukadam/formscn
 - **What it contributed**: Visual form builder, class-based state core, multi-tier storage, publish-to-registry, framework-toggle codegen.
 - **Key patterns**: `FormEditor` class + `useSyncExternalStore` bridge. Memory→Redis→Postgres→Blob→JSON fallback. Publish as shadcn registry JSON. Framework-toggle export (React/Remix/TanStack). Turborepo+pnpm monorepo.
+
+## 53. Browser Use
+- **Repo**: `browser-use/browser-use`
+- **URL**: https://github.com/browser-use/browser-use
+- **What it contributed**: AI browser automation, model-agnostic agent core, pluggable tools, dual CLI/library surface.
+- **Key patterns**: Provider-prefixed model IDs. `@tools.action` registry. CLI for one-off, library for automation. Benchmark-driven dev. Production escape hatches documented up front.
+
+## 54. Matt Pocock Skills
+- **Repo**: `mattpocock/skills`
+- **URL**: https://github.com/mattpocock/skills
+- **What it contributed**: Engineering discipline skills — grilling, TDD, debugging loops, deep-module architecture, ubiquitous language.
+- **Key patterns**: Two-tier skill taxonomy (user-invoked vs model-invoked). `/grill-me` alignment before action. `CONTEXT.md` living glossary. Red-green-refactor + gated debugging. Deep-module surveys.
+
+## 55. Claude Code Security Review
+- **Repo**: `anthropics/claude-code-security-review`
+- **URL**: https://github.com/anthropics/claude-code-security-review
+- **What it contributed**: Diff-aware PR security scanning, modular audit pipeline, false-positive filtering, threat-model honesty.
+- **Key patterns**: Only scan changed files. Modular pipeline (orchestration→prompts→filter→LLM→parser). Explicit denylist. Configurable via inputs. Document prompt-injection limitations.
+
+## 56. CyberStrikeAI
+- **Repo**: `Ed1s0nZ/CyberStrikeAI`
+- **URL**: https://github.com/Ed1s0nZ/CyberStrikeAI
+- **What it contributed**: Multi-agent security orchestration, YAML tool recipes, result governance, human-in-the-loop audit.
+- **Key patterns**: Plan-Execute + Supervisor topologies. 100+ YAML tools with role-scoped access. Capped output governance. Approval modes + RBAC + audit-agent. Progressive skill loading + config-as-template.
+
+## 57. OpenAEV
+- **Repo**: `OpenAEV-Platform/openaev`
+- **URL**: https://github.com/OpenAEV-Platform/openaev
+- **What it contributed**: Campaign simulation platform, scenario decomposition, pluggable injects, open-core model.
+- **Key patterns**: Scenario→team→simulation→inject modules. Pluggable injectors without core changes. Community vs Enterprise boundary. Telemetry-by-default with transparency. Nightly-reset demo + rolling release.
+
+## 58. HackAgent
+- **Repo**: `AISecurityLab/hackagent`
+- **URL**: https://github.com/AISecurityLab/hackagent
+- **What it contributed**: AI agent red-teaming SDK, role-separated LLM pipeline, attack-engine abstraction, multi-framework adapters.
+- **Key patterns**: Generator→Target→Judge LLM pipeline. Pluggable attack strategies. Dataset-driven evaluation. Multi-framework target adapters. Local SQLite + cloud sync reporting. Standalone binaries.

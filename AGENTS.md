@@ -717,3 +717,74 @@ When working with existing code during a competition:
 - Full-stack template catalog: pair components with production-ready templates wiring auth/payments/DB/AI.
 - Agent-pattern taxonomy by role: research, analytics, audit, design, orchestrator, routing, evaluator-optimizer.
 - Multi-channel distribution: shadcn CLI, downloadable app, or openable in v0.
+
+---
+
+## BROWSER AUTOMATION (from Browser Use — always active)
+
+- Model-agnostic agent core: one API key routes to any provider. Agent loop decoupled from LLM.
+- Pluggable custom tools via `@tools.action` registry — extend agent capabilities declaratively with typed callables.
+- CLI-vs-library split by use-case: one-off tasks → CLI/skill; repeatable automation → library. Same engine, dual surface.
+- Production escape hatches documented up front: memory management, parallelism, proxy rotation, captcha/stealth.
+- Benchmark-driven development: open task benchmark gates claims, giving reproducible eval harness.
+
+---
+
+## ENGINEERING DISCIPLINE SKILLS (from Matt Pocock Skills — always active)
+
+### Two-Tier Skill Taxonomy
+- User-invoked skills orchestrate (`/grill-me`). Model-invoked skills hold reusable discipline (`/tdd`, `/code-review`).
+- User-invoked may call model-invoked but never another user-invoked — prevents recursion spaghetti.
+
+### Alignment Before Action
+- `/grill-me`: force agent to interview user until every branch of design tree is resolved.
+- Close misalignment gap BEFORE code is written. Never guess — ask until unambiguous.
+
+### Shared Language + Context
+- `CONTEXT.md` = living glossary that sharpens terminology, reduces token spend, keeps naming consistent.
+- Architecture Decision Records (ADRs) capture WHY decisions were made.
+
+### TDD with Disciplined Debugging
+- Red-green-refactor TDD drives vertical slices.
+- `/diagnosing-bugs`: gated phase-by-phase loop: red → minimize → hypothesize → instrument → fix → regression-test.
+- Never debug by guessing. Form hypothesis, instrument, verify, then fix.
+
+### Deep-Module Architecture
+- Scan for "deepening opportunities": lots of behavior behind a small interface at a clean seam.
+- Present candidates as visual report. Survey, not rescue — don't refactor everything at once.
+
+---
+
+## SECURITY REVIEW PATTERNS (from Claude Code Security Review + CyberStrikeAI + HackAgent — always active)
+
+### Diff-Aware Security Scanning
+- Only analyze changed files for PRs (fetch-depth: 2) — bounded cost/latency.
+- Full-repo runs via `run-every-commit` flag when needed.
+- Modular audit pipeline: orchestration → prompts → findings filter → LLM calls → parser. Each stage independently testable.
+- Explicit false-positive filtering: known denylist (DoS, rate-limiting, generic validation, open redirect) excluded by default.
+- Configurable via inputs (model, timeout, exclude dirs, custom instructions) — reuse without forking.
+- Threat-model honesty: document prompt-injection limitations, prescribe safe GitHub settings.
+
+### Multi-Agent Security Orchestration (CyberStrikeAI)
+- Multi-agent topologies: single, Deep, Plan-Execute, Supervisor via graph workflows.
+- YAML tool recipes with role-scoped access: 100+ tools as YAML, blocking calls in workers with bounded waits.
+- Result governance: agent only sees capped result that's stored — protect resume from oversized output.
+- Human-in-the-loop + full audit trail: approval modes, tool allowlists, audit-agent reviewer, RBAC.
+- Progressive skill loading: `SKILL.md` with lazy loading. Config-as-template, local dirs preserved across upgrades.
+
+### AI Red-Teaming (HackAgent)
+- Role-separated LLM pipeline: Generator (crafts adversarial prompts) → Target Agent (system under test) → Judge (evaluates safety bypass).
+- Attack-engine abstraction: single interface over many techniques (AdvPrefix, PAIR, TAP, BoN, etc.). New attacks = pluggable strategies.
+- Dataset-driven evaluation: pre-built benchmarks + custom datasets, decoupling test corpora from execution.
+- Multi-framework target adapters: uniform interface across Google ADK, OpenAI SDK, LiteLLM, LangChain.
+- Dual reporting: local SQLite (default) + cloud sync (opt-in). Standalone binaries for portable reproducible runs.
+
+---
+
+## CAMPAIGN SIMULATION (from OpenAEV — always active)
+
+- Scenario → team → simulation → inject decomposition: exercises as composable modules.
+- Pluggable inject architecture: new delivery channels added without core changes.
+- Open-core dual edition: Community (Apache 2.0) vs Enterprise (separate license). Clear free/paid boundary.
+- Telemetry-by-default with public documentation: exact data points documented, transparent.
+- Reference-data demo + rolling release: nightly-reset demo instance, continuous delivery from main.
