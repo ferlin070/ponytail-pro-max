@@ -1,6 +1,6 @@
-# CLAUDE.md — Ponytail Pro Max
-# Battle-tested configuration for Claude Code
-# This file is auto-read on every session — all rules below are always active.
+# AGENTS.md — Ponytail Pro Max
+# Opencode auto-reads this file on every session in this project.
+# All rules below are ALWAYS ACTIVE — they apply to every instruction you give.
 
 ## IDENTITY
 
@@ -43,73 +43,86 @@ scores 90+ on Completeness, Problem-Solving & Design, and Technical Craft.
 
 ---
 
-## AUTO-APPLY AGENTS (use when context matches)
+## AUTO-APPLY RULES (use when context matches)
 
-### Frontend Developer Agent
-**Trigger:** Building UI components, state management, responsive design, accessibility.
+### When building UI / frontend
 - Component-first thinking — reusable, composable pieces.
-- Mobile-first responsive design.
-- Semantic HTML and proper ARIA attributes.
-- Type safety with TypeScript.
+- Mobile-first responsive design with `clamp()`, `grid auto-fit`.
+- Semantic HTML and proper ARIA attributes on EVERY element.
+- Type safety with TypeScript strict mode.
 - Output: working component + accessibility checklist.
 
-### CLI/UI Designer Agent
-**Trigger:** Designing terminal-style or dashboard interfaces, CLI aesthetics.
+### When designing terminal/dashboard UI
 - Monospace typography with fallbacks.
 - Terminal color schemes via CSS custom properties.
 - Command-line visual patterns: prompts ($, >), status dots, ASCII headers.
 - High contrast, keyboard navigation, focus indicators.
 
-### Component Reviewer Agent
-**Trigger:** Before committing — review your own code against quality standards.
-- Check: valid structure, kebab-case naming, no hardcoded secrets.
-- Check: no absolute paths, correct file placement.
+### Before committing — self-review
+- Check: valid structure, no hardcoded secrets, no absolute paths.
 - Check: all required fields present, documentation complete.
 - Output: ✅ APPROVED / ⚠️ WARNINGS / ❌ CRITICAL with fixes.
 
-### Build Checker Agent
-**Trigger:** Before pushing or submitting — verify build passes.
+### Before pushing — verify build
 - Run: `npm run typecheck && npm test && npm run build`.
 - Check for common build errors (regex in JSX, missing imports, type errors).
 - If any check fails, STOP and fix before pushing.
 
-### Command Expert Agent
-**Trigger:** Creating CLI commands or automation scripts.
+### When creating CLI commands or automation
 - Design commands with clear argument parsing and error handling.
-- Use `$ARGUMENTS` placeholder for user input.
 - Include validation, error recovery, and structured output.
 - Document all parameters and options.
 
-### Deployer Agent
-**Trigger:** Deployment verification, checking deploy status.
-- Push to main = deploy (GitHub Actions handles it).
-- Pre-push checklist: git status, pull latest, run tests.
+### Before deploying
+- Ensure changes are committed and pushed to main.
+- Verify deploy status after push.
 - NEVER hardcode project IDs, org IDs, or tokens.
 
 ---
 
-## AUTO-APPLY COMMANDS (run when asked or before submit)
+## PRE-SUBMIT CHECKLIST (run when asked to "check" or "submit")
 
-### /test — Test Runner
-- Detects framework (Vitest, pytest, unittest).
-- Runs with coverage if available.
-- Shows clear results with failure details.
-- ALWAYS run before submitting: `npm test`.
+1. Run typecheck: `npm run typecheck`
+2. Run tests: `npm test`
+3. Run build: `npm run build`
+4. Run size check: `npm run size`
+5. Run accessibility audit (mental checklist below)
+6. Check git status for uncommitted changes
+7. Verify latest commit is pushed: `git log --oneline -3`
 
-### /lint — Code Quality
-- Run type checking: `npm run typecheck`.
-- Check for unused imports/variables.
-- Verify consistent formatting.
-- ALWAYS run before committing.
+## ACCESSIBILITY AUDIT (run when asked to "check a11y" or "audit")
 
-### /size — Size Check
-- Run: `npm run size` to verify under byte cap.
-- If over cap: trim CSS comments, compact templates, remove dead code.
-- NEVER submit if over the cap — it scores zero.
+1. **Landmarks**: `<header aria-label>`, `<main aria-label>`, `<section aria-label>` present.
+2. **Labels**: Every input/select/textarea has `<label for>` or `aria-label`.
+3. **Radio groups**: Each radio has individual `aria-label` (e.g. "3 stars").
+4. **Modal focus**: Focus moves into dialog on open, Tab trapped, restored on close.
+5. **Live regions**: `aria-live="polite"` on toast container, `role="alert"` on errors.
+6. **Keyboard**: Tab through entire app — all interactive elements reachable.
+7. **Reduced motion**: `@media (prefers-reduced-motion: reduce)` collapses animations.
+8. **Semantic HTML**: `<button>` not `<div onclick>`, `<nav>` not `<div class="nav">`.
+9. **Hidden text**: `.sr-only` for screen-reader-only content.
+10. **Color contrast**: 4.5:1 for normal text, 3:1 for large.
 
 ---
 
-## COMPETITION WORKFLOW (follow this every time)
+## SIZE GUARDIAN (auto-apply when committing or when size is mentioned)
+
+1. Run `npm run size` to check total source bytes.
+2. If under cap: report "✅ Under cap by N bytes."
+3. If over cap: identify largest files and suggest specific trims:
+   - Remove CSS comments and redundant whitespace.
+   - Compact HTML template literals (remove indentation).
+   - Shorten placeholder/descriptive text strings.
+   - Remove dead code and unused imports.
+4. NEVER suggest removing tests, accessibility attributes, or error handling.
+
+## SIZE CAP REFERENCE
+
+| Format | Rookie | Veteran | Elite | Legend |
+|--------|--------|---------|-------|--------|
+| Duel   | 25 KB  | 50 KB   | 70 KB | 90 KB  |
+| Brawl  | 40 KB  | 90 KB   | 130KB | 160KB  |
+| Squad  | 80 KB  | 150 KB  | 200KB | 260KB  |
 
 ```
 MINUTE 0–10:   Read brief 2×. List requirements as checklist.
