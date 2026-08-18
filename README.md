@@ -24,12 +24,20 @@ This template has all of that pre-wired. Clone it, build your app, ship.
 ## Quick start
 
 ```bash
-# Clone into a new competition repo
-npx degit your-username/ponytail-pro-max my-competition
+# Clone into a new competition repo (degit strips git history)
+npx degit ferlin070/ponytail-pro-max my-competition
 
 cd my-competition
 npm install
 npm run dev       # start coding
+```
+
+Or clone with history (then remove the origin):
+
+```bash
+git clone https://github.com/ferlin070/ponytail-pro-max.git my-competition
+cd my-competition
+git remote remove origin
 ```
 
 ## Scripts
@@ -95,6 +103,23 @@ Based on real competition feedback:
 | **Completeness** | CRUD + persistence + edge cases + seed data | Errors silently swallowed, no loading states |
 | **Problem Solving & Design** | Semantic landmarks, ARIA labels, focus management, responsive | Missing aria-labels, no focus trap in modals |
 | **Technical Craft** | Modular files, TypeScript strict, unit tests, escapeHtml | Monolithic file, no types, no tests, XSS risk |
+
+## Brief → pattern cheat-sheet
+
+Told which patterns apply when a brief arrives. All rules are already active in `AGENTS.md`; this is the fast lookup.
+
+| Brief asks for... | Consult | Patterns |
+|---|---|---|
+| Any CRUD / dashboard / list app | Refine (#11), Vibe Kanban (#18) | Headless CRUD, provider pattern, mutation invalidation, Plan→Build→Ship |
+| Anything with a UI | DESIGN.md (#19), Taste (#61), Impeccable (#62), Clone Wars (#9) | 9-section design system, 3 design dials, 23 commands, proven UX clones |
+| React / Tailwind components | shadcn/ui (#47), React Bits (#44), Animate UI (#48), COSS (#42) | Copy-paste-own, variant matrix, animation-first |
+| Animations | GSAP (#30), Motion Design (#32), Genjutsu (#33) | Interaction thesis first, scope+revert, reduced-motion |
+| AI features / agents / RAG | Awesome LLM Apps (#13), LibreChat (#38) | Multi-agent teams, CRAG, memory, generative UI |
+| Security brief | Camoufox (#3), CAI (#14), Strix (#15), PentAGI (#16), PentestGPT (#17), HackAgent (#58) | Kill-chain phases, PoC validation, guardrails |
+| Data integration / sync / API | OpenConnector (#20), Firecrawl (#28) | Hash-based sync, event-driven, reverse proxy |
+| Large existing codebase | CodeGraph (#21), Knip (#22) | `codegraph_explore`, dead-code elimination |
+| Finance / trading | AutoHedge (#36), Vibe-Trading (#37) | Risk gate first, tested math, provenance |
+| Anything | Competition Real (#1) | a11y is #1 score-killer. Commit early, push VERIFIED. |
 
 ## License
 

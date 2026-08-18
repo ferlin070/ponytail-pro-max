@@ -1,6 +1,6 @@
 # Sources — Repo Library
 
-20 repos integrated into Ponytail Pro Max AGENTS.md. Each contributed patterns, rules, or reference material.
+62 repos integrated into Ponytail Pro Max AGENTS.md. Each contributed patterns, rules, or reference material.
 
 ## 1. Competition Real (Candle Collection Log)
 - **Repo**: `ferlin070/sbkmb4j8`
@@ -121,23 +121,6 @@
 - **URL**: https://github.com/ConductionNL/openconnector
 - **What it contributed**: Source-target sync, data transformation, reverse proxy endpoints, event-driven architecture, rate limit handling, config portability.
 - **Key patterns**: Hash-based change detection for incremental sync. Field mapping + template transforms + conditional logic. Reverse proxy with rule chaining. CloudEvents emit/consume. Rate limit detection + backoff. Config groups + OpenAPI JSON export/import.
-
----
-
-## Summary by Category
-
-| Category | Sources |
-|---|---|
-| Accessibility & Error Handling | #1 (Competition), #2 (claude-code-templates) |
-| ADHD Output Formatting | #4 (i-have-adhd) |
-| Token Compression | #5 (TencentDB), #6 (Caveman), #7 (RTK), #8 (Headroom) |
-| Memory & Context | #5 (TencentDB), #8 (Headroom), #16 (PentAGI) |
-| System Design | #10 (Agent Reach), #11 (Refine), #12 (OmniGet), #20 (OpenConnector) |
-| UI/UX Reference | #9 (Clone Wars), #19 (Awesome DESIGN.md) |
-| AI Agents & RAG | #13 (Awesome LLM Apps), #5 (TencentDB) |
-| Security & Pentesting | #3 (Camoufox), #14 (CAI), #15 (Strix), #16 (PentAGI), #17 (PentestGPT) |
-| Workflow & Orchestration | #18 (Vibe Kanban), #2 (claude-code-templates) |
-| Data Integration | #20 (OpenConnector), #11 (Refine) |
 
 ## 21. CodeGraph
 - **Repo**: `colbymchenry/codegraph`
@@ -390,3 +373,31 @@
 - **URL**: https://github.com/pbakaus/impeccable
 - **What it contributed**: 23-command design vocabulary, 59 deterministic detector rules, design hook, build path (comp-first/code-first), explicit anti-patterns.
 - **Key patterns**: Init-first context (PRODUCT.md + DESIGN.md). 23 commands (audit, polish, critique, harden, animate, etc.). 59 rules run without LLM/API key. Design hook on UI edits (block before / surface after). Comp-first vs code-first build path. Anti-patterns: no overused fonts, no gray-on-color, no card nesting, no bounce easing.
+
+---
+
+## Summary by Category (all 62)
+
+| Category | Sources |
+|---|---|
+| Accessibility & Error Handling | #1 (Competition), #2 (claude-code-templates) |
+| ADHD Output Formatting | #4 (i-have-adhd) |
+| Token Compression | #5 (TencentDB), #6 (Caveman), #7 (RTK), #8 (Headroom) |
+| Memory & Context | #5 (TencentDB), #8 (Headroom), #16 (PentAGI) |
+| System Design | #10 (Agent Reach), #11 (Refine), #12 (OmniGet), #20 (OpenConnector) |
+| UI/UX Reference | #9 (Clone Wars), #19 (Awesome DESIGN.md), #61 (Taste), #62 (Impeccable) |
+| AI Agents & RAG | #13 (Awesome LLM Apps), #5 (TencentDB) |
+| Security & Pentesting | #3 (Camoufox), #14 (CAI), #15 (Strix), #16 (PentAGI), #17 (PentestGPT), #23 (ReconForge), #24 (Medusa), #55 (Claude Code Security Review), #56 (CyberStrikeAI), #58 (HackAgent) |
+| Workflow & Orchestration | #18 (Vibe Kanban), #27 (gstack), #38 (LibreChat) |
+| Data Integration | #20 (OpenConnector), #11 (Refine), #28 (Firecrawl) |
+| Code Intelligence | #21 (CodeGraph), #22 (Knip), #26 (Context7) |
+| Motion & Animation | #29 (Three.js), #30 (GSAP), #32 (Motion Design), #33 (Genjutsu), #25 (HyperFrames) |
+| Design Identity | #31 (Design DNA), #19 (DESIGN.md), #41 (Square UI), #42 (COSS) |
+| UI Components | #43 (Shadcn Dashboard MCP), #44 (React Bits), #45 (Canvas UI), #46 (Vue Bits), #47 (shadcn/ui), #48 (Animate UI), #49 (Cult UI), #50 (Kokonut UI), #51 (Skiper UI), #52 (FormsCN) |
+| Prototyping & Codegen | #34 (VibeUI), #35 (VibeUI Studio), #52 (FormsCN) |
+| Financial & Trading | #36 (AutoHedge), #37 (Vibe-Trading) |
+| AI Agent Safety | #39 (Claude Ads), #40 (LeadPlus), #56 (CyberStrikeAI), #58 (HackAgent) |
+| Browser Automation | #53 (Browser Use) |
+| Engineering Discipline | #54 (Matt Pocock Skills) |
+| Simulation & Campaigns | #57 (OpenAEV) |
+| Link Attribution & Directory | #59 (Dub), #60 (GitHub-Repos) |
