@@ -398,5 +398,18 @@ MINUTE 85–90:  Audit:
 - Agent provenance tracked — know which agent wrote what.
 - Auto-dedup with vector similarity.
 - Compressed context passing across multi-agent workflows.
+
+---
+
+## REFERENCE: CLONE WARS (UI/UX pattern library — consult before building)
+
+When building a competition app, consult existing open-source clones for proven UI patterns:
+- **CRUD/dashboard**: Airtable (rowy.io), Notion, Google Keep, Todoist clones
+- **Media/social**: Instagram, YouTube, Twitter, Spotify clones
+- **E-commerce**: Amazon, Airbnb clones
+- **Productivity**: Evernote (joplin), Discord clones
+- **Search/analytics**: Google, Hacker News clones
+
+Pattern: before designing a new component from scratch, check if a popular app already solved the UX. Adapt the layout, not the code.
 - Environment variables via `env` binding, never hardcode.
 - CORS headers set explicitly on all API responses.
