@@ -325,5 +325,37 @@ MINUTE 85–90:  Audit:
 - Persisted outside chat (code, comments, commits, docs, issues, PRs): write normal prose.
 - "Open a defect/issue/bug" = body goes to humans = normal English.
 - Level persists until changed or session end.
+
+---
+
+## RULES FROM RTK (command output compression — always active)
+
+### Shell Output Compression (rtk principles)
+- Intercept shell command outputs and compress BEFORE they enter agent context.
+- Smart Filtering: remove noise (comments, whitespace, boilerplate, progress bars).
+- Grouping: aggregate similar items (files by directory, errors by type, tests by pass/fail).
+- Truncation: keep relevant context, cut redundancy.
+- Deduplication: collapse repeated log lines with counts.
+
+### Per-Command Targets
+- `ls`/`tree`: tree format with file counts, not one line per entry.
+- `cat`/`read`: signatures and structure over full bodies.
+- `grep`/`rg`: truncate long lines, group matches by file.
+- `git status`: compact stat format, grouped by state.
+- `git diff`: reduced context, headers stripped.
+- `git log`: hash, author, subject only.
+- `git add/commit/push`: confirmation line instead of full progress.
+- `npm test`/`cargo test`: failures only, passing collapsed to count.
+- `eslint`/`ruff`/`tsc`: grouped by rule and file.
+
+### Failure Recovery
+- When a command fails, save full unfiltered output so the agent can read it without re-executing.
+- Full output goes to disk; agent sees compact summary + pointer to full log.
+- On failure: show failure count + specific errors + link to full output file.
+
+### Context Budget Awareness
+- Bash output is ONE contributor to input tokens, alongside prompt, system prompt, and history.
+- Token counts are estimated as bytes/4 — percentages reliable, absolute numbers approximate.
+- Always measure before and after compression — only apply when it's smaller.
 - Environment variables via `env` binding, never hardcode.
 - CORS headers set explicitly on all API responses.
