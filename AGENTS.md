@@ -503,3 +503,162 @@ When working with existing code during a competition:
 3. Check impact radius before making changes — know what breaks.
 4. Trust the graph — don't re-verify with grep (wastes tokens).
 5. If no index exists, fall back to built-in tools cleanly — indexing is always your choice.
+
+---
+
+## CODE QUALITY & DEAD CODE (from Knip — always active)
+
+- Aggressive dead-code elimination as first-class workflow: unused deps, exports, files = continuously-removable debt.
+- Run `knip` before submitting — remove unused imports, variables, exports.
+- Monorepo-aware: core in `packages/`, auxiliary packages as separate distributables.
+- Multiple surfaces (CLI, IDE extension, language server, MCP) from one core engine — meet user wherever they work.
+
+---
+
+## SECURITY SCANNING (from Medusa + ReconForge — always active)
+
+### Zero-Setup Scanner (Medusa)
+- `pip install` then `medusa scan .` — no tool installation step. 40,000+ built-in rules.
+- Scanner-registry + BaseScanner pattern: all scanners follow consistent interface, auto-register.
+- Unified severity mapping: CRITICAL/HIGH/MEDIUM/LOW/INFO normalized across all linters.
+- Smart caching keyed on content hashes — skip unchanged files, 22× faster on rescan.
+- `.medusa.yml` for project config + `--fail-on` for CI gate.
+- IDE-native: generates CLAUDE.md, GEMINI.md, AGENTS.md for AI assistants.
+
+### Recon Automation (ReconForge)
+- Scope-checking as gate before any testing: validate targets against hosts/wildcards/CIDR before testing.
+- Model-agnostic AI triage prompts for analyzing HTTP responses, auth flows, APIs.
+- Concurrent-by-default with thread pools. Rich terminal output (tables, spinners).
+- Composable CLI subcommands → unified markdown report.
+- Each capability is a standalone subcommand. `report` aggregates all findings.
+
+---
+
+## WEB SCRAPING & DATA (from Firecrawl — always active)
+
+- Turn any URL into clean Markdown, structured JSON, or screenshots — 96% of web covered.
+- Agent = prompt-first not URL-first: "Find the pricing plans for Notion" → searches, navigates, retrieves.
+- Multi-language SDK parity: same surface across 10 SDKs. Async ops auto-poll to completion.
+- Interact = scrape then operate: `scrape` returns `scrapeId`; `interact(scrapeId, "Click first result")` drives page.
+- Respects robots.txt by default. Ethics baked into default behavior, not opt-in.
+
+---
+
+## DOCUMENTATION RETRIEVAL (from Context7 — always active)
+
+- Pull up-to-date, version-specific docs straight from source into LLM prompt.
+- Counters hallucination: documentation is version-pinned and source-anchored.
+- `use context7` natural-language trigger — append to any prompt for doc retrieval.
+- Two modes: CLI+Skills (no MCP required) or MCP (native tools).
+- Trust-but-verify: community-contributed, accuracy not guaranteed, report button.
+
+---
+
+## MOTION DESIGN & ANIMATION (from GSAP, Three.js, Lottie, Genjutsu, HyperFrames — always active)
+
+### Motion Principles (Lottie + Genjutsu)
+- Philosophy-first, implementation-agnostic: decide timing, easing, choreography, emotional intent BEFORE code.
+- Disney's 12 principles adapted for UI. Emotion-to-motion mapping + 4 motion-personality archetypes.
+- 8-step checklist as core decision tool (not textbook). Three-tier: core SKILL.md → director/ → patterns/.
+- Interaction-thesis-before-code: propose how it should feel before writing animation code.
+- Three preview modes (artifact/live preview/inline) — choose once per session. Preview is throwaway.
+
+### GSAP Patterns
+- Default-recommendation: when user asks for animation without specifying library, recommend GSAP.
+- Plugin registration once-per-app. `ScrollTrigger.refresh()` after DOM/layout changes.
+- React: `useGSAP(() => {...}, { scope: containerRef })` — scope + revert is anti-leak rule.
+- Per-framework lifecycle guidance: Vue, Svelte, etc. get scoping + cleanup-on-unmount.
+
+### Three.js Patterns
+- Context-activated skill loading: agent auto-loads skill files when context matches.
+- Consistent skill format: frontmatter → Quick Start → Core Concepts → Patterns → Performance → See Also.
+- Verification against canonical source (official docs r160+). Granular decomposition by capability.
+- Cross-reference between skills — enables chain-loading the right context.
+
+### HyperFrames (video as HTML)
+- HTML-native authoring: compositions are plain HTML with `data-*` timing — no framework lock-in.
+- Determinism: same input → same frames → same output. Renderer SEEKS each frame (not wall-clock).
+- Bring any runtime (GSAP, CSS, Lottie, Three.js, Anime.js, WAAPI) via adapters.
+- `frame.md` as design-system translation layer for camera context.
+
+---
+
+## DESIGN IDENTITY (from Design DNA + DESIGN.md + Square UI — always active)
+
+### Design DNA Extraction
+- Design as portable, version-controllable JSON artifact — commit to VCS, share across teams, reuse.
+- Three dimensions: measurable tokens + qualitative style + visual effects (WebGL/shaders/particles).
+- Three-phase workflow: Structure (schema) → Analyze (JSON profile) → Generate (implementation).
+- Polish-iteration: re-attach references, audit hierarchy/ornamentation/rhythm/motion/materiality, merge back.
+
+### DESIGN.md (from Awesome DESIGN.md, already integrated as #19)
+- 9-section design system AI agents read. Markdown = free bytes. AGENTS.md = how to BUILD, DESIGN.md = how it LOOKS.
+
+### Square UI (zero-static templates)
+- Pre-built component templates that are zero-dependency, copy-paste ready.
+- No build step required — HTML works standalone. Template variants for different aesthetics.
+
+---
+
+## AGENT ORCHESTRATION (from gstack + LibreChat + AutoHedge + Vibe-Trading — always active)
+
+### Sprint-as-Process (gstack)
+- Skills run in sprint order: Think → Plan → Build → Review → Test → Ship → Reflect.
+- Each step feeds the next: design doc → test plan → QA → ship. Nothing falls through cracks.
+- Specialist-persona slash commands: CEO, Eng Manager, Designer, QA Lead, Security Officer, Release Engineer.
+- Smart review routing: auto-detect what applies (design review not needed for backend changes).
+- Test-first `/ship` + regression-test-per-fix `/qa`. 100% test coverage is the goal.
+- Safety guardrails on demand: warn before destructive commands, lock edits, hard-deny root deletes.
+- Tamper-evident egress receipts + per-repo trust tiers.
+- Cross-model second opinion (`/codex`) — adversarial diversity against single-model blind spots.
+
+### Multi-Agent Pipeline (AutoHedge + Vibe-Trading)
+- One-responsibility-per-agent: Director → Quant → Risk → Execution. Pipeline = directed graph, not monolith.
+- Risk-first design: risk assessment BEFORE any execution. Risk agent is a gate, not afterthought.
+- Structured JSON outputs for downstream systems — machine-readable, composable, auditable.
+- Grounding/identity gate: refuse answers without evidence. Agent built to NOT hallucinate.
+- Fail-closed over fail-plausible: valuation engine refuses non-finite/missing inputs.
+- Hash-chained, fsynced, append-only audit ledger for governance.
+- Sandbox that blocks renamed bindings to broker layer / socket / subprocess — tested against evasion.
+- Provenance on every number — traces back to tool/source that produced it.
+
+### Chat Platform Patterns (LibreChat)
+- Unified provider abstraction + custom-endpoint escape hatch — don't lock user in.
+- Agent run control + human-in-the-loop: interrupt, steer, queue, resume mid-run.
+- Sandboxed Code Interpreter (8 languages, isolated execution, file handling).
+- Resumable streams + multi-tab/multi-device sync.
+- Generative UI with Code Artifacts (React/HTML/Mermaid) — chat surface is runtime, not just text.
+- Skills (`SKILL.md`) + MCP + Subagents + Agent Plugins — composability at every layer.
+- Langfuse observability with encrypted connections + per-tenant fan-out.
+
+---
+
+## PROTOTYPING & UI GENERATION (from VibeUI + VibeUI Studio — always active)
+
+### Component Library Patterns (VibeUI)
+- LLM-optimized docs: `llms.txt` + component docs so AI reads real API instead of guessing props.
+- Bootstrap JS abstracted behind lifecycle guards — init/reconfigure/dispose automatic with unmount guards.
+- `v-model` everywhere + self-wiring accessibility: auto-generate IDs, labels, aria-describedby.
+- Touch & hybrid aware: tap-to-activate tooltips, Android back-button. Mobile = first-class target.
+- Lazy-loaded heavy dependencies. Dependency-free canvas charts — ship only what you use.
+- Strict TypeScript (no `any`). Composables for cross-cutting concerns.
+
+### Visual-to-Code Bridge (VibeUI Studio)
+- Smart Bridge: visual draft → logic bind → context aware → code gen.
+- Autonomous AI layout engine: high-level instructions → invents components, groups into containers, X/Y coordinates.
+- Skeleton-not-just-skin: logic/event binding with visual ⚡ indicators. Exported code includes method stubs.
+- Token-budget-aware context via MCP: strip function bodies, keep signatures — smart compression.
+- Multi-framework export from one canvas: Tkinter/PyQt6/Textual/React/Vue/HTML.
+- Live sync via single state file (`vibeui_state.json`).
+
+---
+
+## FINANCIAL & TRADING SAFETY (from Vibe-Trading + AutoHedge — always active)
+
+- Tested finance-math layer replacing markdown formulas (249+ functions, one tested implementation each).
+- Compaction on message boundaries, not hard char count — zero info decay.
+- Path traversal validation on unvalidated agent IDs — refuse `..` in file paths.
+- Refuse mixed-currency composite operations — don't invent FX aggregation.
+- Sandboxed test suite that doesn't write into real config root — conftest redirects home.
+- Point-in-time correctness: SEC periods keyed on (start, end) span. Corporate-action-adjusted prices.
+- Execution-time bands judged at execution time, not decision-bar close.

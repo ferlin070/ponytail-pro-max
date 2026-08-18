@@ -144,3 +144,123 @@
 - **URL**: https://github.com/colbymchenry/codegraph
 - **What it contributed**: Pre-built semantic code graph, surgical context, impact analysis, framework-aware routing, cross-language bridging, auto-sync reliability.
 - **Key patterns**: One `codegraph_explore` call replaces 28-43 grep+read tool calls. Native Rust kernel parses 20+ languages. Auto-sync via OS file watcher with debounced incremental updates. Cross-language bridging (Swift↔ObjC, React Native). Impact radius before changes. 100% local SQLite, no data leaves machine.
+
+## 22. Knip
+- **Repo**: `webpro-nl/knip`
+- **URL**: https://github.com/webpro-nl/knip
+- **What it contributed**: Dead code elimination, unused dependency detection, multi-surface architecture.
+- **Key patterns**: Aggressive dead-code as continuous debt. CLI+IDE+LSP+MCP from one core. Monorepo-aware packaging.
+
+## 23. ReconForge
+- **Repo**: `ferasbusiness666/ReconForge`
+- **URL**: https://github.com/ferasbusiness666/ReconForge
+- **What it contributed**: Recon automation, scope-checking gate, AI triage prompts, composable CLI.
+- **Key patterns**: Scope-check before testing. Model-agnostic AI triage. Concurrent thread pools. Subcommands → unified report.
+
+## 24. Medusa
+- **Repo**: `Pantheon-Security/medusa`
+- **URL**: https://github.com/Pantheon-Security/medusa
+- **What it contributed**: Zero-setup security scanning, scanner-registry pattern, severity normalization, smart caching.
+- **Key patterns**: 40,000+ built-in rules, no external tools required. BaseScanner+ScannerRegistry. Content-hash caching (22× faster rescan). `.medusa.yml` + `--fail-on` CI gate. IDE-native context files.
+
+## 25. HyperFrames
+- **Repo**: `heygen-com/hyperframes`
+- **URL**: https://github.com/heygen-com/hyperframes
+- **What it contributed**: Video-as-HTML, deterministic rendering, adapter-based animation, reusable blocks.
+- **Key patterns**: HTML with `data-*` timing. Same input → same output. Seek each frame (not wall-clock). Any runtime via adapters. `frame.md` design translation layer.
+
+## 26. Context7
+- **Repo**: `upstash/context7`
+- **URL**: https://github.com/upstash/context7
+- **What it contributed**: Version-specific documentation retrieval, hallucination countermeasures.
+- **Key patterns**: `use context7` trigger. Version-pinned source-anchored docs. CLI+Skills or MCP modes. Trust-but-verify framing.
+
+## 27. gstack
+- **Repo**: `garrytan/gstack`
+- **URL**: https://github.com/garrytan/gstack
+- **What it contributed**: Sprint-as-process, specialist personas, smart review routing, safety guardrails, cross-model second opinion.
+- **Key patterns**: Think→Plan→Build→Review→Test→Ship→Reflect. 23 specialist slash commands. Test-first `/ship` + regression-per-fix `/qa`. Tamper-evident egress receipts. `/learn` persistent memory. Cross-model `/codex`.
+
+## 28. Firecrawl
+- **Repo**: `firecrawl/firecrawl`
+- **URL**: https://github.com/firecrawl/firecrawl
+- **What it contributed**: Web scraping, agent-first retrieval, multi-language SDK parity, interact API.
+- **Key patterns**: Prompt-first not URL-first. 10 SDKs same surface. `interact(scrapeId)` drives live page. robots.txt by default.
+
+## 29. Three.js Skills
+- **Repo**: `CloudAI-X/threejs-skills`
+- **URL**: https://github.com/CloudAI-X/threejs-skills
+- **What it contributed**: Context-activated 3D skill loading, verified API references, granular decomposition.
+- **Key patterns**: Auto-load skills by context. Verified against official docs (r160+). 10 atomic skills. Cross-reference chain-loading.
+
+## 30. GSAP Skills
+- **Repo**: `greensock/gsap-skills`
+- **URL**: https://github.com/greensock/gsap-skills
+- **What it contributed**: GSAP animation patterns, plugin registration, React cleanup, framework lifecycle.
+- **Key patterns**: Default-recommend GSAP. registerPlugin once-per-app. `useGSAP` scope+revert. Per-framework lifecycle. `llms.txt` skill index.
+
+## 31. Design DNA
+- **Repo**: `zanwei/design-dna`
+- **URL**: https://github.com/zanwei/design-dna
+- **What it contributed**: Design as portable JSON artifact, three-dimensional design model, extraction workflow.
+- **Key patterns**: Tokens + qualitative style + visual effects. Structure→Analyze→Generate. Polish-iteration against re-attached references. Commit to VCS.
+
+## 32. Motion Design Skill (LottieFiles)
+- **Repo**: `LottieFiles/motion-design-skill`
+- **URL**: https://github.com/LottieFiles/motion-design-skill
+- **What it contributed**: Philosophy-first motion design, 8-step checklist, Disney principles for UI, emotion-to-motion mapping.
+- **Key patterns**: Decide timing/easing/choreography before code. Implementation-agnostic. Three-tier structure. 4 motion-personality archetypes. Context-adaptation (a11y, reduced-motion).
+
+## 33. Genjutsu
+- **Repo**: `AThevon/genjutsu`
+- **URL**: https://github.com/AThevon/genjutsu
+- **What it contributed**: Creative coding skills, interaction-thesis-before-code, stack auto-detection, MASTER.md design system.
+- **Key patterns**: Propose interaction thesis before code. Three preview modes (artifact/live/inline). Stack auto-detect → dynamic sub-skill load. `MASTER.md` persistent design system. Two validation gates (mini-audit + full-audit).
+
+## 34. VibeUI
+- **Repo**: `velkymx/vibeui`
+- **URL**: https://github.com/velkymx/vibeui
+- **What it contributed**: Vue 3 component library, LLM-optimized docs, lifecycle guards, self-wiring accessibility.
+- **Key patterns**: `llms.txt` for AI. Bootstrap JS behind lifecycle guards. `v-model` everywhere + auto ARIA. Touch/hybrid aware. Strict TS (no `any`). Lazy-loaded heavy deps.
+
+## 35. VibeUI Studio
+- **Repo**: `ElysionLhant/VibeUI-Studio`
+- **URL**: https://github.com/ElysionLhant/VibeUI-Studio
+- **What it contributed**: Visual-to-code bridge, autonomous AI layout engine, token-budget-aware context, multi-framework export.
+- **Key patterns**: Visual draft→logic bind→context aware→code gen. AI invents components+coordinates. Skeleton-not-just-skin (⚡ indicators). Strip function bodies keep signatures. Live sync via `vibeui_state.json`.
+
+## 36. AutoHedge
+- **Repo**: `The-Swarm-Corporation/AutoHedge`
+- **URL**: https://github.com/The-Swarm-Corporation/AutoHedge
+- **What it contributed**: Multi-agent trading pipeline, risk-first design, structured outputs, enterprise logging.
+- **Key patterns**: Director→Quant→Risk→Execution. Risk agent = gate not afterthought. JSON outputs for downstream. Modular extensible framework.
+
+## 37. Vibe-Trading
+- **Repo**: `HKUDS/Vibe-Trading`
+- **URL**: https://github.com/HKUDS/Vibe-Trading
+- **What it contributed**: Grounding/identity gate, tested finance-math layer, audit ledger, sandbox evasion testing, point-in-time correctness.
+- **Key patterns**: Refuse answers without evidence. 249+ tested functions replacing markdown formulas. Hash-chained fsynced ledger. Sandbox blocks renamed bindings. Compaction on message boundaries (zero info decay). Path traversal validation.
+
+## 38. LibreChat
+- **Repo**: `danny-avila/LibreChat`
+- **URL**: https://github.com/danny-avila/LibreChat
+- **What it contributed**: Unified provider abstraction, agent run control, sandboxed code interpreter, generative UI artifacts, multi-tenant observability.
+- **Key patterns**: Custom-endpoint escape hatch. Interrupt/steer/queue/resume mid-run. 8-language sandboxed interpreter. Resumable streams + multi-device sync. Skills+MCP+Subagents+Plugins. Langfuse per-tenant fan-out.
+
+## 39. Claude Ads
+- **Repo**: `AgriciDaniel/claude-ads`
+- **URL**: https://github.com/AgriciDaniel/claude-ads
+- **What it contributed**: Read-only-by-default write gate, versioned JSON canonical artifact, evidence/release controls, data classification.
+- **Key patterns**: 6-step approval/rollback/verification gate for writes. Versioned JSON canonical, MD/HTML/PDF renderings. No X without Y (4 falsifiable gates). Credentials never in repo/profiles/reports/logs. SHA-256 tagged release install.
+
+## 40. LeadPlus
+- **Repo**: `sven2101/leadPlus`
+- **URL**: https://github.com/sven2101/leadPlus
+- **What it contributed**: `__PLACEHOLDER__` searchable secrets convention, profile-based config, multi-tenant via subdomain.
+- **Key patterns**: Single greppable token for all deployment-time config. Spring profiles for environment separation. Tenant isolation at routing layer.
+
+## 41. Square UI
+- **Repo**: `zerostaticthemes/square-ui`
+- **URL**: https://github.com/zerostaticthemes/square-ui
+- **What it contributed**: Zero-dependency copy-paste component templates, no build step required.
+- **Key patterns**: HTML works standalone. Template variants for different aesthetics. Copy-paste ready, no framework lock-in.
