@@ -264,3 +264,69 @@
 - **URL**: https://github.com/zerostaticthemes/square-ui
 - **What it contributed**: Zero-dependency copy-paste component templates, no build step required.
 - **Key patterns**: HTML works standalone. Template variants for different aesthetics. Copy-paste ready, no framework lock-in.
+
+## 42. COSS (Cal.com Design System)
+- **Repo**: `cosscom/coss`
+- **URL**: https://github.com/cosscom/coss
+- **What it contributed**: Turborepo monorepo design system, Base UI + Tailwind + copy-paste philosophy, cross-app linking.
+- **Key patterns**: App/package separation. Env-var cross-app linking. Biome + shared TS config. Unstyled accessible primitives as foundation.
+
+## 43. Shadcn Dashboard MCP
+- **Repo**: `shadcnspace/shadcndashboard-mcp`
+- **URL**: https://github.com/shadcnspace/shadcndashboard-mcp
+- **What it contributed**: MCP-as-installation-surface, audit checklist tool, customization-guidelines prompt.
+- **Key patterns**: Components as typed MCP tools. `get_audit_checklist` for agent self-enforcement. Customization-guidelines define safe-to-modify parts. Agent instruction files per IDE.
+
+## 44. React Bits
+- **Repo**: `DavidHDev/react-bits`
+- **URL**: https://github.com/DavidHDev/react-bits
+- **What it contributed**: 165+ animated components, four-variant matrix, minimal dependencies, tree-shakeable.
+- **Key patterns**: JS/TS × CSS/TW variants per component. Copy-paste via shadcn/jsrepo. Minimal deps + tree-shakeable. Official framework ports (Vue, Svelte).
+
+## 45. Canvas UI
+- **Repo**: `DavidHDev/canvas-ui`
+- **URL**: https://github.com/DavidHDev/canvas-ui
+- **What it contributed**: Canvas-drawn components, engine + thin wrappers, graceful degradation, MCP-ready registry.
+- **Key patterns**: One TS/WebGL engine + 5 framework wrappers. HTML-in-canvas with WebGL fallback. Copy-don't-install via shadcn registry. Monorepo holds library+docs+registry.
+
+## 46. Vue Bits
+- **Repo**: `DavidHDev/vue-bits`
+- **URL**: https://github.com/DavidHDev/vue-bits
+- **What it contributed**: Vue port of React Bits, 90+ animated Vue/Nuxt components, prop-driven customization.
+- **Key patterns**: Official framework port mirroring source. jsrepo CLI distribution. Minimal-dependency. Prop-driven customization.
+
+## 47. shadcn/ui (canonical)
+- **Repo**: `DavidHDev/shadcn-ui`
+- **URL**: https://github.com/DavidHDev/shadcn-ui
+- **What it contributed**: Copy-paste-own philosophy, open code, composable accessible primitives.
+- **Key patterns**: Don't ship dependency — ship source consumers own. Open Code = distribution. Composable accessible primitives. MIT licensing. Docs as first-class citizen.
+
+## 48. Animate UI
+- **Repo**: `imskyleen/animate-ui`
+- **URL**: https://github.com/imskyleen/animate-ui
+- **What it contributed**: Animation-first component distribution, modern stack lockstep.
+- **Key patterns**: Motion as core not add-on. React+TS+Tailwind+Motion stack. Vercel OSS sponsorship. Concise README → separate docs.
+
+## 49. Cult UI
+- **Repo**: `nolly-studio/cult-ui`
+- **URL**: https://github.com/nolly-studio/cult-ui
+- **What it contributed**: 92+ AI agent patterns, full-stack templates, agent-pattern taxonomy, multi-channel distribution.
+- **Key patterns**: Curated pattern directory with previews. Full-stack template catalog (auth/payments/DB/AI). Agent taxonomy by role. Free+PRO tiering. shadcn CLI + v0 + downloadable app.
+
+## 50. Kokonut UI
+- **Repo**: `kokonut-labs/kokonutui`
+- **URL**: https://github.com/kokonut-labs/kokonutui
+- **What it contributed**: Components built on Tailwind + shadcn/ui + Motion, Vercel OSS sponsored.
+- **Key patterns**: Compose on top of shadcn/ui. Tailwind + Motion on top. Community-first contribution. MIT licensing.
+
+## 51. Skiper UI
+- **Repo**: `nischayhq/skiper-ui`
+- **URL**: https://github.com/nischayhq/skiper-ui
+- **What it contributed**: Folder-by-domain structure, CSS-variable theme system, mobile-first responsive.
+- **Key patterns**: `components/homeCards/`, `landingPage/`, `navbar/`, `ui/` separation. CSS-variable dark/light theming. Touch/swipe first-class. `lib/utils.ts` helpers.
+
+## 52. FormsCN
+- **Repo**: `AbdullahMukadam/formscn`
+- **URL**: https://github.com/AbdullahMukadam/formscn
+- **What it contributed**: Visual form builder, class-based state core, multi-tier storage, publish-to-registry, framework-toggle codegen.
+- **Key patterns**: `FormEditor` class + `useSyncExternalStore` bridge. Memory→Redis→Postgres→Blob→JSON fallback. Publish as shadcn registry JSON. Framework-toggle export (React/Remix/TanStack). Turborepo+pnpm monorepo.

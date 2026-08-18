@@ -662,3 +662,58 @@ When working with existing code during a competition:
 - Sandboxed test suite that doesn't write into real config root — conftest redirects home.
 - Point-in-time correctness: SEC periods keyed on (start, end) span. Corporate-action-adjusted prices.
 - Execution-time bands judged at execution time, not decision-bar close.
+
+---
+
+## UI COMPONENT PATTERNS (from shadcn/ui, React Bits, Canvas UI, Cult UI, Kokonut UI, Animate UI, Skiper UI, FormsCN, COSS — always active)
+
+### Copy-Paste-Own Philosophy (shadcn/ui pattern)
+- Don't ship a dependency — ship source that consumers copy, paste, and own.
+- Open Code: the code itself is the distribution. No opaque runtime to wrestle with.
+- Composable, accessible primitives designed to be customized, not used as black boxes.
+- Compose on top of shadcn/ui rather than reinventing primitives — Tailwind + Motion on top.
+
+### Multi-Variant Matrix (React Bits pattern)
+- Ship JS/TS × CSS/Tailwind variants per component — same component serves any stack preference.
+- Minimal dependencies + tree-shakeable — adding one component doesn't bloat bundle.
+- Copy-paste via existing registries (shadcn CLI, jsrepo) — meet users where they already are.
+
+### Engine + Thin Wrappers (Canvas UI pattern)
+- Each component = one plain TypeScript/WebGL engine + thin framework wrappers (React, Solid, Vue, Svelte, vanilla).
+- Graceful degradation with feature detection: HTML-in-canvas where supported, WebGL fallback elsewhere.
+- MCP-ready registry: AI assistants browse and install components directly.
+
+### MCP-as-Installation-Surface (Shadcn Dashboard MCP pattern)
+- Distribute components as typed MCP tools AI agents can call — `listBlocks`, `searchBlocks`, `getBlockInstall`.
+- Audit checklist as a tool: agents self-enforce constraints before mutating project.
+- Customization-guidelines prompt: define which parts are safe to modify, protecting upgrades.
+
+### Animation-First Distribution (Animate UI + Kokonut UI pattern)
+- Treat motion as core, not add-on — every component ships animated by default.
+- Modern stack lockstep: React + TypeScript + Tailwind + Motion.
+- Compose on top of shadcn/ui — don't reinvent primitives.
+
+### Visual Builder + Code Generation (FormsCN pattern)
+- Class-based state core + `useSyncExternalStore` bridge — decouples state logic from UI framework.
+- Multi-tier storage with graceful fallback: memory → Redis → Postgres → Blob → local JSON.
+- Publish-to-registry: built artifacts become installable CLI artifacts (`npx shadcn add <url>`).
+- Framework-toggle code generation: same visual design exports to React/Remix/TanStack.
+- Turborepo + pnpm monorepo: editor, component library, registry, config cleanly separated.
+
+### Monorepo + Design System (COSS pattern)
+- Turborepo monorepo with clear app/package separation — independent deployable apps sharing code.
+- Environment-variable-driven cross-app linking — each app declares URLs for others.
+- Shared tooling layer (Biome + shared TS config) for consistency across all packages.
+- Base UI + Tailwind + copy-paste philosophy — unstyled accessible primitives as foundation.
+
+### Folder-by-Domain Structure (Skiper UI pattern)
+- `components/homeCards/`, `components/landingPage/`, `components/navbar/`, `components/ui/` — keep sections separate.
+- CSS-variable theme system for seamless dark/light theming.
+- Mobile-first responsive with touch/swipe support as first-class.
+- Reusable UI primitives in `components/ui/`, helpers in `lib/utils.ts`.
+
+### Agent-Pattern Taxonomy (Cult UI pattern)
+- Curated pattern directory: 92+ patterns browsable with previews, descriptions, install links.
+- Full-stack template catalog: pair components with production-ready templates wiring auth/payments/DB/AI.
+- Agent-pattern taxonomy by role: research, analytics, audit, design, orchestrator, routing, evaluator-optimizer.
+- Multi-channel distribution: shadcn CLI, downloadable app, or openable in v0.
