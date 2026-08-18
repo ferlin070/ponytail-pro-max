@@ -412,3 +412,52 @@ Reader has ADHD. Shape every response so an ADHD brain can act.
 2. Pick a design language from the reference library that fits the brief.
 3. Tell agent: "build using DESIGN.md" — UI stays visually consistent.
 4. Every color, font, spacing, shadow defined upfront = no design drift.
+
+---
+
+## INTEGRATION & SYNC PATTERNS (from OpenConnector — always active)
+
+### Source-Target Sync Pattern
+- Define sync flows: source config + target config + data mapping in one contract.
+- Change detection: hash-based comparison — skip unchanged objects, avoid unnecessary API calls.
+- Per-object state tracking: origin ID, target ID, hash — for reliable incremental sync.
+- Force mode: override change detection. Test mode: validate before production.
+- Pagination: automatic traversal with configurable query params + result position detection.
+
+### Data Transformation (mapping layer)
+- Field mapping: one-to-one, rename, type conversion, format adjustment.
+- Template expressions (Twig-style) for complex transforms: loops, conditionals, string manipulation.
+- Type casting: jsonToArray, date formatting, nested object flattening.
+- Nested object mapping: dot-notation paths for deeply structured data.
+- Conditional mapping: apply transforms based on JSON Logic conditions.
+
+### Endpoint as Reverse Proxy
+- Expose external APIs through your own endpoint paths.
+- Per-method definitions: separate GET/POST/PUT/DELETE configs on same path.
+- Path parameters: dynamic URL segments with placeholder support.
+- Rule chaining: ordered rules for auth, mapping, sync triggers, file handling.
+
+### Event-Driven Architecture
+- Cloud Events: emit and consume for real-time data flows.
+- Event subscriptions: configurable handlers per event type.
+- Consumers: process incoming webhook payloads.
+- Scheduled jobs: cron-based sync execution with full logging.
+
+### Rate Limit & Reliability
+- Automatic rate limit detection with backoff handling.
+- Complete HTTP request/response logging for all source interactions.
+- Per-sync log entries with error tracking + status.
+- Log cleanup: automatic old log removal to manage storage.
+
+### Configuration Portability
+- Bundle related sources/endpoints/mappings/rules into named configuration groups.
+- Import/export as OpenAPI-structured JSON for backup, sharing, environment migration.
+- Slug-based URL-friendly identifiers for all entities.
+
+### Competition Application
+When a competition brief needs data integration or sync:
+1. Define sources (external API connections) with auth upfront.
+2. Map fields with templates — never hardcode transformation logic.
+3. Track sync state per object (hash comparison) — avoid redundant work.
+4. Expose endpoints as reverse proxy with rule chaining.
+5. Emit events for real-time updates — don't poll.
