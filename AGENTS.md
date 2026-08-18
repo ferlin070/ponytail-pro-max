@@ -438,5 +438,36 @@ Pattern: before designing a new component from scratch, check if a popular app a
 - The layer's job: select, install, diagnose, route.
 - Adding a new platform = add a channel file, not rewrite core.
 - When platform changes API/anti-scrape: swap the backend, keep the interface.
+
+---
+
+## RULES FROM REFINE (CRUD meta-framework patterns — always active)
+
+### Headless Architecture
+- Decouple business logic from UI and routing — logic is headless, UI is pluggable.
+- Build with any UI framework (Tailwind, MUI, Ant Design, Mantine, Chakra) — no lock-in.
+- Routing is a simple interface, not a setup ceremony — works with any router.
+- Data providers are swappable — REST, GraphQL, Supabase, Airtable — change one prop.
+
+### CRUD-Heavy App Patterns
+- Auto-generate CRUD UIs from API data structure — don't hand-build every list/create/edit view.
+- State management via React Query — server state is the source of truth, not local state.
+- Mutations (create/update/delete) invalidate relevant queries automatically.
+- Live/real-time support out of the box — subscriptions update data without refresh.
+
+### Provider Pattern (swappable layers)
+- **Data provider**: abstracts API calls (list, create, update, delete, one). Swap without touching UI.
+- **Auth provider**: abstracts login, logout, permissions, identity. Swap without touching routes.
+- **Access control**: role-based or resource-based checks before render. Deny by default.
+- **I18n provider**: translations are a layer, not baked into components.
+- **Router provider**: routing logic is pluggable — works on web, mobile, electron.
+
+### Competition Application
+When building a CRUD-heavy competition app:
+1. Define resources (name, list/create/edit/show paths) upfront.
+2. Use a data provider pattern — even if it's localStorage, abstract it so it's swappable.
+3. Auto-generate list views from data shape, not hardcoded columns.
+4. Mutations should invalidate and refetch — never manually sync state.
+5. Access control: check permission before rendering action buttons (edit/delete).
 - Environment variables via `env` binding, never hardcode.
 - CORS headers set explicitly on all API responses.
