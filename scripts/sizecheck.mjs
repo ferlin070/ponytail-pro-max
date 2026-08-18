@@ -16,7 +16,7 @@ const ROOT = process.cwd();
 const LIMIT_KB = Number(process.argv[2] ?? 64);
 const LIMIT_BYTES = LIMIT_KB * 1024;
 
-const SKIP_DIRS = new Set(['node_modules', 'dist', '.git', '.github', 'scripts', 'coverage', 'react-tailwind', 'designs']);
+const SKIP_DIRS = new Set(['node_modules', 'dist', '.git', '.github', 'scripts', 'coverage', 'react-tailwind', 'designs', 'demo']);
 const SKIP_FILES = new Set(['package-lock.json', 'pnpm-lock.yaml', 'yarn.lock', 'vercel.json', 'netlify.toml']);
 const SKIP_EXT = new Set([
   '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico',

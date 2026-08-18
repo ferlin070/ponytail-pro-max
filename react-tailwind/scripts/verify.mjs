@@ -5,8 +5,9 @@
  */
 import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 
-const ROOT = new URL('..', import.meta.url).pathname;
+const ROOT = process.cwd();
 // Windows resolves npm as npm.cmd — shell:true makes spawnSync portable (proven pattern from root verify).
 const IS_WIN = process.platform === 'win32';
 
@@ -19,7 +20,7 @@ const steps = [
 
 let failed = false;
 console.log('\n  ── Ponytail React verify ──\n');
-if (!existsSync(new URL('.ponytail-ready', import.meta.url))) {
+if (!existsSync(join(ROOT, '.ponytail-ready'))) {
   console.log('  [assert-app] Pristine React template — demo guard skipped.');
 } else {
   const a = spawnSync('node', ['scripts/assert-app.mjs'], { stdio: 'inherit', shell: IS_WIN });

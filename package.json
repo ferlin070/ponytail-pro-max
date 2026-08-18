@@ -21,7 +21,10 @@
     "brief": "node scripts/brief.mjs",
     "seed": "node scripts/seed.mjs",
     "audit": "node scripts/audit.mjs",
-    "deploy": "node scripts/deploy.mjs"
+    "deploy": "node scripts/deploy.mjs",
+    "demo": "vite demo",
+    "e2e": "node scripts/e2e.mjs",
+    "submit": "node scripts/submit.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.0",

@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 /**
- * audit — self-score against the competition rubric (Completeness / P&S Design /
- * Technical Craft). Grep-based heuristics over src/ + config. Advisory: prints
- * what's found and what's missing so you fix gaps before the human reviewer.
+ * audit (React variant) — self-score against the competition rubric.
+ * Same heuristic checks as the root variant, tuned for React + Tailwind.
  *
  * Usage: node scripts/audit.mjs [limit-kb]   (npm run audit)
  * Exit code is always 0 unless --fail is passed.
@@ -17,7 +16,7 @@ function readAll(dir) {
   const out = [];
   function walk(d) {
     for (const e of readdirSync(d, { withFileTypes: true })) {
-if (['node_modules', 'dist', '.git', 'designs', 'react-tailwind', 'demo'].includes(e.name)) continue;
+      if (['node_modules', 'dist', '.git', 'designs'].includes(e.name)) continue;
       const full = join(d, e.name);
       if (e.isDirectory()) walk(full);
       else if (/\.(ts|tsx|js|jsx|html)$/.test(e.name)) out.push(readFileSync(full, 'utf8'));
@@ -32,13 +31,13 @@ const lower = src.toLowerCase();
 
 // ---- Completeness ----
 const c = [];
-c.push(['Add flow', /submit|add|create|onAdd|handleAdd|setItems\(/, src]);
+c.push(['Add flow', /submit|onSubmit|handleAdd|setItems\(/, src]);
 c.push(['Edit flow', /edit|update|handleEdit|setEditing/, src]);
 c.push(['Delete flow', /delete|remove|handleDelete/, src]);
 c.push(['Persistence', /localStorage|createStore|useLocalStorage/, src]);
 c.push(['Seed data', /makeSeed|seedItems|seedData/, src]);
-c.push(['Error handling', /role="alert"|error-banner|role='alert'/, src]);
-c.push(['Empty state', /nothing yet|empty|tiada item|no items|belum ada/i, src]);
+c.push(['Error handling', /role="alert"|error-banner/, src]);
+c.push(['Empty state', /nothing yet|empty|no items|tiada item|belum ada/i, src]);
 c.push(['Loading state', /loading|spinner|memuat/, src]);
 const completeness = Math.round(c.filter(([, ok]) => ok).length / c.length * 100);
 
@@ -49,17 +48,17 @@ d.push(['Input labels', /<label[^>]*for=|<label[^>]*htmlFor=|aria-label=/, src])
 d.push(['Modal focus mgmt', /trapFocus|openModal|focus\(\)|useModal|Modal/, src]);
 d.push(['sr-only utility', /sr-only|\.sr-only/, src]);
 d.push(['Reduced motion', /prefers-reduced-motion/, src]);
-d.push(['Real buttons', /<button|<button|aria-label=/, src]);
+d.push(['Real buttons', /<button/, src]);
 const design = Math.round(d.filter(([, ok]) => ok).length / d.length * 100);
 
 // ---- Technical Craft ----
 const t = [];
 const tsconfig = existsSync(join(ROOT, 'tsconfig.json')) ? readFileSync(join(ROOT, 'tsconfig.json'), 'utf8') : '';
-const modular = ['types.ts', 'schema.ts', 'storage.ts', 'domain.ts', 'store.ts'].filter((f) => existsSync(join(ROOT, 'src', f))).length >= 2;
+const modular = ['types.ts', 'domain.ts', 'store.ts'].filter((f) => existsSync(join(ROOT, 'src', f))).length >= 2;
 t.push(['TypeScript strict', /"strict"\s*:\s*true/.test(tsconfig)]);
-t.push(['Modular files (types/schema/storage|domain/store)', modular]);
+t.push(['Modular files (types/domain/store)', modular]);
 t.push(['Unit tests present', /describe\(|it\(|test\(/.test(src)]);
-t.push(['No raw innerHTML (escapeHtml or framework escaping)', !/\binnerHTML\s*=/.test(src)]);
+t.push(['No raw innerHTML (JSX escapes by default)', !/\binnerHTML\s*=/.test(src)]);
 t.push(['No leftover console.log/debugger', !/\bconsole\.log\b|\bdebugger\b/.test(src)]);
 const craft = Math.round(t.filter(([, ok]) => ok).length / t.length * 100);
 
@@ -69,7 +68,7 @@ const SKIP_FILES = new Set(['package-lock.json', 'pnpm-lock.yaml', 'yarn.lock', 
 let total = 0;
 function bytes(d) {
   for (const e of readdirSync(d, { withFileTypes: true })) {
-    if (['node_modules', 'dist', '.git', 'designs', 'react-tailwind', 'demo'].includes(e.name)) continue;
+    if (['node_modules', 'dist', '.git', 'designs'].includes(e.name)) continue;
     const full = join(d, e.name);
     if (e.isDirectory()) bytes(full);
     else if (SKIP_FILES.has(e.name)) continue;
@@ -79,7 +78,7 @@ function bytes(d) {
 bytes(ROOT);
 const underCap = total <= cap * 1024;
 
-console.log('\n  ── Ponytail self-audit ──');
+console.log('\n  ── Ponytail React self-audit ──');
 console.log(`  Completeness   ${String(completeness).padStart(3)}/100`);
 for (const [label, ok] of c) console.log(`    ${ok ? '✅' : '❌'} ${label}`);
 console.log(`  P&S Design     ${String(design).padStart(3)}/100`);

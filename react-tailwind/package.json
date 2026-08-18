@@ -13,7 +13,11 @@
     "size": "node scripts/sizecheck.mjs",
     "verify": "node scripts/verify.mjs",
     "init": "node scripts/init.mjs",
-    "deploy": "node scripts/deploy.mjs"
+    "deploy": "node scripts/deploy.mjs",
+    "brief": "node scripts/brief.mjs",
+    "seed": "node scripts/seed.mjs",
+    "audit": "node scripts/audit.mjs",
+    "submit": "node scripts/submit.mjs"
   },
   "dependencies": {
     "react": "^19.0.0",

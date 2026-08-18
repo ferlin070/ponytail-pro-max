@@ -53,9 +53,12 @@ git remote remove origin
 | `npm run size` | Check if source is under the byte cap (pass yours: `npm run size -- 40`) |
 | `npm run verify` | **All gates in one command** (template guard, typecheck, test, a11y, a11y scan, build, size, git status) — run before every push |
 | `npm run init` | Scaffold a real app (replace demo, create module stubs, rename package) |
-| `npm run brief "<text>"` | **Brief → scaffold**: PRD.md + DESIGN.md (picked by keyword) + domain stubs + checklist |
+| `npm run brief "<text>"` | **Brief → scaffold**: PRD.md + DESIGN.md (picked by keyword) + domain stubs + checklist. Detects Bahasa Melayu → Malay PRD (`--lang ms`) |
 | `npm run seed` | Starter data via `makeSeed` + DESIGN.md if missing |
 | `npm run audit` | Self-score against the rubric (Completeness / P&D / Craft) — fix the ❌ rows |
+| `npm run submit` | One-command submission pack: `SUBMIT_URL=https://… npm run submit` → SUBMISSION.md (score, size, commits, checklist) |
+| `npm run e2e` | **Real-browser E2E**: builds, serves, drives Chromium (CRUD flow + axe on the live page) |
+| `npm run demo` | Golden kitchen-sink demo page — every lib weapon working live |
 | `npm run deploy` | Build + deploy to Netlify/Vercel for an early URL |
 
 ## Workflow from a brief (90 minutes)
@@ -65,10 +68,12 @@ npx degit ferlin070/ponytail-pro-max my-app
 cd my-app
 npm install
 npm run brief "Expense tracker in Malay with categories and CSV export"
-#  → PRD.md checklist, DESIGN.md (fintech), types/schema/storage stubs, schema.test.ts
+#  → PRD.md checklist (Malay), DESIGN.md (fintech), types/schema/storage stubs, schema.test.ts
 npm run seed          # starter data + seed test
 npm run dev           # build your app to the PRD checklist
 npm run audit         # self-score → fix ❌ rows
+npm run e2e           # real-browser flow + axe scan
+npm run submit        # SUBMISSION.md pack (SUBMIT_URL=https://your-app.netlify.app)
 npm run verify        # all gates
 # push early, keep it verified; CI auto-deploys to Netlify if secrets are set
 ```
