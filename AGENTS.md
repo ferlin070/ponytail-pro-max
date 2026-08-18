@@ -469,5 +469,42 @@ When building a CRUD-heavy competition app:
 3. Auto-generate list views from data shape, not hardcoded columns.
 4. Mutations should invalidate and refetch — never manually sync state.
 5. Access control: check permission before rendering action buttons (edit/delete).
+
+---
+
+## RULES FROM OMNIGET (desktop app craft — always active)
+
+### Plugin Architecture (self-installing, self-updating)
+- Ship all plugins bundled — install on first launch, update silently.
+- Each plugin is a dynamic library with a manifest + host API.
+- Turn plugins on/off from UI; removed stays removed across restarts.
+- Third-party plugins via SDK + template + registry — no core rewrite.
+
+### Queue & Reliability
+- Resume interrupted downloads — keep partial files, continue from stop, never restart.
+- Retry with backoff when rate-limited.
+- Speed and ETA from real downloader data, not faked from percentage. Stall = stall, not frozen "3s left".
+- Batch operations: process lists, profiles, playlists in one queue.
+
+### Portable Mode
+- Detect a marker file (`portable.txt`) to switch all data paths to beside-executable.
+- Nothing written to system AppData/home — entire install travels on USB.
+- Without marker: use standard per-user data directory.
+
+### Bundled Dependencies (verified, auto-managed)
+- Bundle runtime tools (yt-dlp, FFmpeg) — install themselves, update silently.
+- Verify by SHA256 before execution — never run unverified binaries.
+- Detect and use system-installed versions with source indicators (PATH/Managed/Flatpak).
+
+### One-Action UX (global hotkey pattern)
+- Global hotkey reads clipboard and acts immediately — no window needed.
+- Copy link → press hotkey → download starts in background.
+- Auto-detect URLs on clipboard → show toast → single-click action.
+- Goal: reduce user's path from idea to result to ONE keystroke.
+
+### Settings That Stay Out of the Way
+- Grouped, quiet sidebar. Common choices visible, deep options one tap away.
+- Search box across ALL settings categories with highlight.
+- Short hint under every control — never leave user guessing.
 - Environment variables via `env` binding, never hardcode.
 - CORS headers set explicitly on all API responses.
