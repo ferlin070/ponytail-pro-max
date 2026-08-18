@@ -788,3 +788,21 @@ When working with existing code during a competition:
 - Open-core dual edition: Community (Apache 2.0) vs Enterprise (separate license). Clear free/paid boundary.
 - Telemetry-by-default with public documentation: exact data points documented, transparent.
 - Reference-data demo + rolling release: nightly-reset demo instance, continuous delivery from main.
+
+---
+
+## LINK ATTRIBUTION & ANALYTICS (from Dub — always active)
+
+- Open-source link attribution platform: short links, conversion tracking, affiliate programs.
+- Tech stack reference: Next.js + TypeScript + Tailwind + Prisma + Upstash Redis + Tinybird analytics + PlanetScale + NextAuth + Stripe + Resend + Vercel + Turborepo.
+- Open-core model: 99% AGPLv3 open source, 1% enterprise under commercial license (`/ee` path).
+- Dev seed script: `pnpm run script dev/seed` (basic) or `--truncate` (clean slate) for development data.
+- Self-hostable: full control over data and design. Documented self-hosting guide.
+
+---
+
+## REFERENCE: GITHUB-REPOS DIRECTORY
+- **URL**: https://github.com/nekowawolf/github-repos
+- Curated directory of GitHub repositories across various categories.
+- Discover useful tools, projects, and open-source resources in one place.
+- Consult when looking for existing solutions before building from scratch.

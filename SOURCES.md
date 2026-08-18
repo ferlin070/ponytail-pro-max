@@ -366,3 +366,15 @@
 - **URL**: https://github.com/AISecurityLab/hackagent
 - **What it contributed**: AI agent red-teaming SDK, role-separated LLM pipeline, attack-engine abstraction, multi-framework adapters.
 - **Key patterns**: Generator→Target→Judge LLM pipeline. Pluggable attack strategies. Dataset-driven evaluation. Multi-framework target adapters. Local SQLite + cloud sync reporting. Standalone binaries.
+
+## 59. Dub
+- **Repo**: `dubinc/dub`
+- **URL**: https://github.com/dubinc/dub
+- **What it contributed**: Open-source link attribution platform, open-core model, full-stack reference architecture.
+- **Key patterns**: Next.js+TS+Tailwind+Prisma+Upstash+Tinybird+PlanetScale+NextAuth+Stripe stack. Open-core (99% AGPL, 1% enterprise `/ee`). Dev seed script with `--truncate`. Self-hostable with documented guide.
+
+## 60. GitHub-Repos Directory
+- **Repo**: `nekowawolf/github-repos`
+- **URL**: https://github.com/nekowawolf/github-repos
+- **What it contributed**: Curated directory of GitHub repositories across categories — discover tools, projects, open-source resources.
+- **Key patterns**: Awesome-list style directory. Consult before building from scratch to find existing solutions.
