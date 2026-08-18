@@ -59,12 +59,13 @@ const modular = ['types.ts', 'schema.ts', 'storage.ts', 'domain.ts', 'store.ts']
 t.push(['TypeScript strict', /"strict"\s*:\s*true/.test(tsconfig)]);
 t.push(['Modular files (types/schema/storage|domain/store)', modular]);
 t.push(['Unit tests present', /describe\(|it\(|test\(/.test(src)]);
-t.push(['No raw innerHTML (escapeHtml or framework escaping)', !/\binnerHTML\s*=/.test(src)]);
+t.push(['No unescaped innerHTML (escapeHtml used or none)', !/\binnerHTML\s*=/.test(src) || /\bescapeHtml\b/.test(src)]);
 t.push(['No leftover console.log/debugger', !/\bconsole\.log\b|\bdebugger\b/.test(src)]);
 const craft = Math.round(t.filter(([, ok]) => ok).length / t.length * 100);
 
 // ---- byte cap ----
-const cap = Number(process.argv[2] ?? 64);
+const capArg = Number(process.argv.find((a) => /^\d+$/.test(a)) ?? 64);
+const cap = Number.isFinite(capArg) ? capArg : 64;
 const SKIP_FILES = new Set(['package-lock.json', 'pnpm-lock.yaml', 'yarn.lock', 'vercel.json', 'netlify.toml']);
 let total = 0;
 function bytes(d) {

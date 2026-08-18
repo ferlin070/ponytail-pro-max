@@ -3,6 +3,8 @@
 > Battle-tested starter template for code competitions.
 > Accessibility, testing, error handling, modular architecture — built-in from line 1.
 
+[![CI](https://github.com/ferlin070/ponytail-pro-max/actions/workflows/ci.yml/badge.svg)](https://github.com/ferlin070/ponytail-pro-max/actions/workflows/ci.yml)
+
 ## What this gives you
 
 Every time a competition brief lands, you waste 30+ minutes setting up:

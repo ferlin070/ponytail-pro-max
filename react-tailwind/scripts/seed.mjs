@@ -1,69 +1,59 @@
 #!/usr/bin/env node
 /**
- * seed (React variant) — starter data for the current app.
+ * seed (React variant) — realistic starter data for the current app.
  *
- * Writes src/seedData.ts + a test using src/lib/seed.ts makeSeed. Never
- * overwrites existing files — you fill the factory with your real fields.
+ * Writes DESIGN.md (from designs/, picked by keyword) if missing, and
+ * src/seedData.ts + a self-validating test. Domain-aware (finance/ecommerce/
+ * task/generic — detected from the brief or PRD text) so records match the
+ * type guard in src/store.ts. Never overwrites existing files.
  *
- * Usage: node scripts/seed.mjs [count]
+ * Usage: node scripts/seed.mjs [count] [design-name]
  */
-import { existsSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { detectDomain, detectByGuard, seedDataTemplateReact, SEED_TEST } from './lib/domains.mjs';
 
 const ROOT = process.cwd();
 const count = Number(process.argv[2] ?? 8);
+const designArg = process.argv[3] ?? '';
+
+const DESIGNS = ['fintech.md', 'dashboard.md', 'ecommerce.md', 'mobile-first.md', 'minimal.md', 'landing.md', 'chat-ai.md', 'kanban.md', 'social.md', 'news.md'];
+const designFile = designArg && !designArg.endsWith('.md')
+  ? DESIGNS.find((d) => d.startsWith(designArg)) ?? 'minimal.md'
+  : designArg || 'minimal.md';
+
+if (!existsSync(join(ROOT, 'DESIGN.md'))) {
+  const src = join(ROOT, 'designs', designFile);
+  if (existsSync(src)) {
+    writeFileSync(join(ROOT, 'DESIGN.md'), readFileSync(src, 'utf8'));
+    console.log(`  [seed] ✅ DESIGN.md written (from designs/${designFile}).`);
+  }
+}
+
+// Domain detection: ground truth = the guard already in src/domain.ts,
+// fallback = brief/PRD text (word-boundary regexes, EN + MY keywords).
+const domainSrc = existsSync(join(ROOT, 'src/domain.ts'))
+  ? readFileSync(join(ROOT, 'src/domain.ts'), 'utf8')
+  : '';
+const briefText = existsSync(join(ROOT, 'PRD.md'))
+  ? readFileSync(join(ROOT, 'PRD.md'), 'utf8')
+  : existsSync(join(ROOT, 'DESIGN.md')) ? readFileSync(join(ROOT, 'DESIGN.md'), 'utf8') : '';
+const domain = detectByGuard(domainSrc) ?? detectDomain(briefText);
 
 const seedPath = join(ROOT, 'src/seedData.ts');
 const testPath = join(ROOT, 'src/tests/seedData.test.ts');
 
 if (!existsSync(seedPath)) {
-  writeFileSync(seedPath, `// Starter data for this app. Fill the factory with your real fields.
-// The record shape here MUST match the type guard exported from src/store.ts.
-import { makeSeed } from './lib/seed';
-
-export interface SeedItem {
-  id: string;
-  createdAt: number;
-  // TODO: add the fields your Item type needs
-}
-
-export function isSeedItem(v: unknown): v is SeedItem {
-  if (typeof v !== 'object' || v === null) return false;
-  const o = v as Record<string, unknown>;
-  return typeof o.id === 'string' && typeof o.createdAt === 'number';
-}
-
-export function seedItems(count: number = ${count}): SeedItem[] {
-  return makeSeed<SeedItem>(count, (i) => ({
-    // TODO: e.g. name: NAMES[i % NAMES.length], amount: (i + 1) * 10,
-    ...(i === 0 ? {} : {}),
-  }));
-}
-`);
-  console.log(`  [seed] ✅ src/seedData.ts written (${count} records).`);
+  writeFileSync(seedPath, seedDataTemplateReact(domain, count));
+  console.log(`  [seed] ✅ src/seedData.ts written (${count} records, ${domain.key}).`);
 }
 
 if (!existsSync(testPath)) {
-  writeFileSync(testPath, `// Seed data test — every record validates against its own guard.
-import { describe, it, expect } from 'vitest';
-import { seedItems, isSeedItem } from '../seedData';
-
-describe('seed data', () => {
-  it('generates the requested count with unique ids', () => {
-    const items = seedItems(6);
-    expect(items).toHaveLength(6);
-    expect(new Set(items.map((i) => i.id)).size).toBe(6);
-  });
-
-  it('every record passes its own type guard', () => {
-    for (const item of seedItems(10)) expect(isSeedItem(item)).toBe(true);
-  });
-});
-`);
+  writeFileSync(testPath, SEED_TEST);
   console.log('  [seed] ✅ src/tests/seedData.test.ts written.');
 }
 
 console.log('\n  [seed] Next:');
-console.log('      1. Fill src/seedData.ts factory with your real fields');
-console.log('      2. Mirror the fields into the type guard in src/store.ts');
-console.log('      3. Seed on first run: if (items.length === 0) setItems(seedItems())');
+console.log('      1. Review src/seedData.ts — tweak the inline title/name arrays + factory');
+console.log('      2. Seed on first run: if (items.length === 0) setItems(seedItems())');
+console.log('      3. npm run typecheck && npm test — domain + seed tests must pass');

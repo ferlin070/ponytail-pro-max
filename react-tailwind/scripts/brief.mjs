@@ -14,6 +14,7 @@
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { detectDomain } from './lib/domains.mjs';
 
 const ROOT = process.cwd();
 const raw = process.argv[2] ?? '';
@@ -36,7 +37,8 @@ const isMalay = lang === 'ms' || (lang === 'auto' && MALAY_WORDS.test(raw));
 // ---- pick a design blueprint by keyword (EN + MY) ----
 const DESIGNS = {
   fintech: 'fintech.md', dashboard: 'dashboard.md', ecommerce: 'ecommerce.md',
-  mobile: 'mobile-first.md', minimal: 'minimal.md',
+  mobile: 'mobile-first.md', minimal: 'minimal.md', landing: 'landing.md',
+  chat: 'chat-ai.md', kanban: 'kanban.md', social: 'social.md', news: 'news.md',
 };
 function pickDesign(text) {
   const lower = text.toLowerCase();
@@ -44,6 +46,11 @@ function pickDesign(text) {
   if (/(dashboard|admin|analytics|stat|chart|report|metric|monitor|table|papan|analitik|carta|laporan|statistik)/.test(lower)) return DESIGNS.dashboard;
   if (/(store|shop|ecommerce|product|cart|order|catalog|checkout|inventory|kedai|produk|troli|pesanan|katalog)/.test(lower)) return DESIGNS.ecommerce;
   if (/(app|mobile|ios|android|touch|swipe|phone|thumb|aplikasi|mudah alih|sentuh|telefon)/.test(lower)) return DESIGNS.mobile;
+  if (/(landing|marketing|portfolio|about|homepage|hero|corporate|korporat|brosur)/.test(lower)) return DESIGNS.landing;
+  if (/(chat|ai|assistant|bot|prompt|llm|agent|copilot)/.test(lower)) return DESIGNS.chat;
+  if (/(kanban|board|project|sprint|trello|wip)/.test(lower)) return DESIGNS.kanban;
+  if (/(social|feed|post|profile|follow|community|threads|komuniti)/.test(lower)) return DESIGNS.social;
+  if (/(news|blog|article|editorial|magazine|artikel|berita)/.test(lower)) return DESIGNS.news;
   return DESIGNS.minimal;
 }
 const designFile = designArg ? (DESIGNS[designArg] ?? designArg) : pickDesign(raw);
@@ -162,45 +169,43 @@ React + Tailwind v4 theme (from src/index.css @theme). Stay on these tokens.
   }
 }
 
-// ---- domain stubs (never overwrite) ----
+// ---- domain model: real, tested, typecheck-clean (from scripts/lib/domains.mjs) ----
 mkdirSync(join(ROOT, 'src'), { recursive: true });
-const stub = (file, body) => {
-  const p = join(ROOT, 'src', file);
-  if (!existsSync(p)) { writeFileSync(p, body); return true; }
-  return false;
-};
-const wroteTypes = stub('types.ts', `// Domain types — edit for this app. Brief: ${raw}\nexport interface Item {\n  id: string;\n  createdAt: number;\n  // TODO: add your fields\n}\n`);
-const wroteDomain = stub('domain.ts', `// Pure domain logic: validation, stats, formatting. Side-effect free + unit-tested.\n// Brief: ${raw}\n`);
-const wroteStore = stub('store.ts', `// Persistence: export your type guard, feed it to useLocalStorage from ./lib/hooks.\n`);
-const wroteTest = stub('tests/domain.test.ts', `// Test plan for domain logic. Add real cases:
-import { describe, it, expect } from 'vitest';
+const domain = detectDomain(raw);
+const domainLabel = isMalay
+  ? ({ finance: 'kewangan', ecommerce: 'e-dagang', task: 'tugas', generic: 'generik' })[domain.key] ?? 'generik'
+  : domain.key;
 
-describe('domain logic', () => {
-  it('has at least one tested invariant', () => {
-    expect(true).toBe(true);
-  });
-});
-`);
+// overwrite the comment-only stubs init.mjs left behind; keep any real code you wrote
+const writeDomain = (file, body) => {
+  const p = join(ROOT, 'src', file);
+  if (existsSync(p) && /\bexport\b/.test(readFileSync(p, 'utf8'))) return false;
+  writeFileSync(p, body);
+  return true;
+};
+const wroteTypes = writeDomain('types.ts', domain.rtypes);
+const wroteDomain = writeDomain('domain.ts', domain.rdomain);
+const wroteStore = writeDomain('store.ts', domain.rstore);
+const wroteTest = writeDomain('tests/domain.test.ts', domain.rtest);
 
 console.log(`  [brief] ✅ PRD.md written (${sentences.length} requirement lines, ${isMalay ? 'Bahasa Melayu' : 'English'}).`);
+console.log(`  [brief] 🧩 Domain detected: ${domainLabel} — working model + tests generated.`);
 for (const [f, did] of [['src/types.ts', wroteTypes], ['src/domain.ts', wroteDomain], ['src/store.ts', wroteStore], ['src/tests/domain.test.ts', wroteTest]]) {
   console.log(`  [brief] ${did ? '✅' : '⏭  keep'} ${f}`);
 }
 
 const next = isMalay
   ? [
-      '      1. Edit src/types.ts + src/domain.ts (model + logik domain)',
-      '      2. Edit src/store.ts — eksport type guard isItem',
+      `      1. Domain ${domainLabel} siap — semak src/types.ts + src/domain.ts`,
+      '      2. Semak src/store.ts — item type guard (isItem) sudah dieksport',
       '      3. Lengkapkan src/App.tsx (borang, senarai, events)',
-      '      4. npm run seed   (data biji via makeSeed)',
-      '      5. npm run audit  (skor sendiri)  →  npm run verify  →  push',
+      '      4. npm run seed   (data biji realistik)  →  npm run audit  →  npm run verify  →  push',
     ]
   : [
-      '      1. Edit src/types.ts + src/domain.ts (domain model + logic)',
-      '      2. Edit src/store.ts — export isItem type guard',
+      `      1. Domain "${domainLabel}" scaffolded — review src/types.ts + src/domain.ts`,
+      '      2. src/store.ts exports the type guard (isItem) — wire it into App.tsx',
       '      3. Fill src/App.tsx (form fields, list, events)',
-      '      4. npm run seed   (seed data via makeSeed)',
-      '      5. npm run audit  (self-score)  →  npm run verify  →  push',
+      '      4. npm run seed   (realistic seed data)  →  npm run audit  →  npm run verify  →  push',
     ];
 console.log('\n  [brief] Next:');
 for (const line of next) console.log(line);

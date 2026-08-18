@@ -200,14 +200,16 @@ Static rules above are the baseline. When a brief matches a category below, FETC
 | Command | What |
 |---|---|
 | `npm run init` | Scaffold fresh CRUD shell from template (idempotent) |
-| `npm run brief "<text>" [design]` | PRD.md + DESIGN.md + domain stubs; detects Bahasa Melayu → Malay PRD (`--lang ms`) |
-| `npm run seed [count]` | Seed data via makeSeed + self-validating test |
-| `npm run audit [kb]` | Self-score Completeness/P&S/Craft + size |
-| `npm run submit` | SUBMISSION.md pack (URL via `SUBMIT_URL=…`) |
-| `npm run e2e` | Real-browser flow (build → serve → Chromium: CRUD + axe) |
+| `npm run brief "<text>" [design]` | PRD.md + DESIGN.md + real domain model (finance/ecommerce/task/generic) with unit tests; detects Bahasa Melayu → Malay PRD (`--lang ms`) |
+| `npm run seed [count]` | Domain-aware seed data via makeSeed + self-validating test |
+| `npm run audit [kb] [--fail]` | Self-score Completeness/P&S/Craft + size; `--fail` gates CI |
+| `npm run submit` | SUBMISSION.md pack incl. screenshots (URL via `SUBMIT_URL=…`) |
+| `npm run e2e` | Real-browser flow (build → serve → Chromium CRUD + axe) + screenshots → artifacts/ |
 | `npm run demo` | Golden kitchen-sink demo of every weapon (vite demo) |
 | `npm run verify` | All gates: typecheck, test, build, size, a11y, a11y-scan, assert-app |
 | `npm run deploy` | Netlify/Vercel deploy (portable) |
+
+CI (`.github/workflows/ci.yml`): runs `npm run verify` + `npm run audit -- --fail` on every push; status badge in README.
 
 React variant lives in `react-tailwind/` — same tools ported (brief/seed/audit/submit/verify), hooks version of the weapons, Tailwind v4 theme with AA contrast.
 

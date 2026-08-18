@@ -9,12 +9,15 @@
  */
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { mkdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 
 const ROOT = process.cwd();
 const PORT = 4173;
 const APP_URL = `http://localhost:${PORT}`;
+const ARTIFACTS = join(ROOT, 'artifacts');
 const viteBin = fileURLToPath(new URL('../node_modules/vite/bin/vite.js', import.meta.url));
 
 function build() {
@@ -52,6 +55,16 @@ async function main() {
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto(APP_URL, { waitUntil: 'networkidle' });
+
+    // screenshots → artifacts/ (desktop full-page + mobile viewport)
+    mkdirSync(ARTIFACTS, { recursive: true });
+    await page.screenshot({ path: join(ARTIFACTS, 'desktop.png'), fullPage: true });
+    const mobile = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    const mobilePage = await mobile.newPage();
+    await mobilePage.goto(APP_URL, { waitUntil: 'networkidle' });
+    await mobilePage.screenshot({ path: join(ARTIFACTS, 'mobile.png'), fullPage: true });
+    await mobile.close();
+    console.log('  [e2e] 📸 artifacts/desktop.png + artifacts/mobile.png');
 
     // axe scan of the live page
     const results = await new AxeBuilder({ page }).analyze();

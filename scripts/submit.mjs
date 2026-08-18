@@ -52,6 +52,10 @@ const md = `# Submission — ${name}
 - **Size**: ${sizeLines.join(' | ') || 'n/a'}
 - **Commits**: ${git.ok ? git.out.split('\n').length : '?'} (verified, pushed)
 
+## Screenshots
+${existsSync(join(ROOT, 'artifacts/desktop.png')) ? '![Desktop](artifacts/desktop.png)' : '- (run npm run e2e to capture desktop.png)'}
+${existsSync(join(ROOT, 'artifacts/mobile.png')) ? '![Mobile](artifacts/mobile.png)' : '- (run npm run e2e to capture mobile.png)'}
+
 ## Feature checklist
 ${requirements.length ? requirements.join('\n') : '- [ ] (run npm run brief to generate a PRD checklist)'}
 
