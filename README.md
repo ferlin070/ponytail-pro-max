@@ -50,6 +50,51 @@ git remote remove origin
 | `npm run typecheck` | Strict TypeScript check |
 | `npm run build` | Type-check + production build |
 | `npm run size` | Check if source is under the byte cap |
+| `npm run verify` | **All gates in one command** (template guard, typecheck, test, a11y, build, size, git status) — run before every push |
+| `npm run init` | Scaffold a real app (replace demo, create module stubs, rename package) |
+| `npm run deploy` | Build + deploy to Netlify/Vercel for an early URL |
+
+## Speed start (real app in one step)
+
+```bash
+npx degit ferlin070/ponytail-pro-max my-app
+cd my-app
+npm install
+npm run init my-inventory-log     # replaces the demo, creates types/schema/storage stubs
+npm run dev
+```
+
+`init` writes a clean CRUD skeleton already wired to the 7 weapons, renames the
+package, and arms the "template guard" so CI blocks pushing the untouched demo.
+
+## React + Tailwind variant
+
+Prefer React? `react-tailwind/` is the same guardrails ported to hooks —
+React 19 + TypeScript strict + Tailwind CSS v4 + Testing Library (22 tests).
+The 7 weapons map to `useLocalStorage`, `useAnnounce`, `Modal`/`useModal`,
+plus the vanilla `validate`/`storage`/`format` libs.
+
+```bash
+cd react-tailwind
+npm install
+npm run dev       # demo CRUD showing every weapon together
+npm test          # 22 tests
+```
+
+See `react-tailwind/README.md` for the weapon-to-hook mapping.
+
+## Ready-made DESIGN.md blueprints
+
+`designs/` ships 5 design systems you can copy into `DESIGN.md` and tell the
+agent "build using DESIGN.md":
+
+| File | Best for |
+|---|---|
+| `designs/fintech.md` | Money, budgets, expense trackers |
+| `designs/minimal.md` | Editorial, tools, productivity (Notion/Linear feel) |
+| `designs/dashboard.md` | Admin panels, stats, data tables |
+| `designs/ecommerce.md` | Storefronts, catalogs |
+| `designs/mobile-first.md` | Thumb-friendly app UIs |
 
 ## Competition checklist (paste into your PRD)
 

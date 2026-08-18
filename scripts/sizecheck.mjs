@@ -1,22 +1,23 @@
 #!/usr/bin/env node
 /**
  * Size checker — sums raw bytes of all source files and warns if over a limit.
- * Usage: node scripts/sizecheck.mjs [limit-in-kb]
- * Default limit: 40 (KB).
+ * Usage: node scripts/sizecheck.mjs [limit-in-kb]   (npm run size -- 40)
+ * Default limit: 64 (KB) — the template's own floor with demo + tests + docs.
+ * Competitors pass their competition cap explicitly, e.g. `npm run size -- 40`.
  *
  * Not counted: images, fonts, video, markdown (except root README),
- * lock files, node_modules, dist.
+ * lock files, deploy configs, node_modules, dist, scripts, .github.
  */
 
 import { readdirSync, statSync } from 'node:fs';
 import { join, extname } from 'node:path';
 
 const ROOT = process.cwd();
-const LIMIT_KB = Number(process.argv[2] ?? 40);
+const LIMIT_KB = Number(process.argv[2] ?? 64);
 const LIMIT_BYTES = LIMIT_KB * 1024;
 
-const SKIP_DIRS = new Set(['node_modules', 'dist', '.git', '.github', 'scripts', 'coverage']);
-const SKIP_FILES = new Set(['package-lock.json', 'pnpm-lock.yaml', 'yarn.lock']);
+const SKIP_DIRS = new Set(['node_modules', 'dist', '.git', '.github', 'scripts', 'coverage', 'react-tailwind', 'designs']);
+const SKIP_FILES = new Set(['package-lock.json', 'pnpm-lock.yaml', 'yarn.lock', 'vercel.json', 'netlify.toml']);
 const SKIP_EXT = new Set([
   '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico',
   '.woff', '.woff2', '.ttf', '.otf',

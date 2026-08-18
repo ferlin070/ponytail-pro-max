@@ -14,7 +14,10 @@
     "test:a11y": "vitest run --config vitest.a11y.config.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
-    "size": "node scripts/sizecheck.mjs"
+    "size": "node scripts/sizecheck.mjs",
+    "verify": "node scripts/verify.mjs",
+    "init": "node scripts/init.mjs",
+    "deploy": "node scripts/deploy.mjs"
   },
   "devDependencies": {
     "typescript": "^5.5.4",
