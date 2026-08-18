@@ -411,5 +411,32 @@ When building a competition app, consult existing open-source clones for proven 
 - **Search/analytics**: Google, Hacker News clones
 
 Pattern: before designing a new component from scratch, check if a popular app already solved the UX. Adapt the layout, not the code.
+
+---
+
+## RULES FROM AGENT REACH (capability layer patterns — always active)
+
+### Multi-Backend Routing (fallback chains)
+- Each capability = ordered list of backends (primary + fallback).
+- Switching backends = reorder list, not rewrite code.
+- Probing is real (test if backend actually works), not just "does file exist."
+- When a backend breaks: switch to next, user is unaware.
+
+### Default-Safe Installation
+- `install` defaults to read-only check — no system changes without explicit `--system` flag.
+- `--dry-run` previews all operations without executing.
+- Credentials stored locally (file perms 600), never uploaded.
+- Uninstall is clean and complete, with `--keep-config` option.
+
+### Diagnostic Command Pattern
+- `doctor` command: test every channel, report which works + which is broken + how to fix.
+- Always tell user the CURRENT backend in use, not just "ok/broken."
+- Give repair prescription for each broken channel.
+
+### Capability Layer (not tool layer)
+- Don't wrap upstream tools — let Agent call them directly.
+- The layer's job: select, install, diagnose, route.
+- Adding a new platform = add a channel file, not rewrite core.
+- When platform changes API/anti-scrape: swap the backend, keep the interface.
 - Environment variables via `env` binding, never hardcode.
 - CORS headers set explicitly on all API responses.
