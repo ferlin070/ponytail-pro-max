@@ -292,3 +292,60 @@ Reader has ADHD. Shape every response so an ADHD brain can act.
 ### Consult Before Building
 - **UI/UX**: Clone Wars (100+ open-source clones: Airbnb, Amazon, Netflix, Spotify, etc.)
 - **AI features**: Awesome LLM Apps (100+ agent templates: RAG, multi-agent, memory, generative UI)
+
+---
+
+## SECURITY & PENTESTING PATTERNS (from CAI, Strix, PentAGI, PentestGPT)
+
+### Multi-Stage Security Pipeline
+- Break security work into staged phases: recon → exploit → walkthrough (CTF) or asset discovery → vuln ID → report (pentest).
+- Feed each stage's findings into the next — never isolate phases.
+- Track steps in real-time as the agent works (live walkthrough).
+
+### Agent-Based Security Architecture
+- **Agents per kill-chain phase**: recon, exploitation, privilege escalation, lateral movement, exfiltration, C2.
+- **Handoffs**: agent delegates to specialist (e.g. flag discriminator after exploit agent finds candidate).
+- **Agent-as-tool**: specialized security agents used BY other agents without formal handoffs.
+- **ReACT model**: Reasoning + Action — agent perceives environment, reasons, acts through tools.
+
+### Guardrails & Safety
+- Built-in defenses against prompt injection in AI security agents.
+- Human-in-the-loop (HITL): require human confirmation before destructive actions.
+- Tool call limits: hard limits per agent type to prevent runaway execution.
+- Reflector: auto-invoked when LLM fails to generate tool calls after N attempts — guides to recovery.
+
+### Exploit Validation (not false positives)
+- Every finding MUST include a working proof-of-concept, not just a scanner flag.
+- Validate through actual exploitation, not static analysis alone.
+- SAST + DAST combined for comprehensive coverage.
+- CVSS scoring + OWASP classification on every finding.
+
+### Memory for Security Work
+- Long-term: store successful approaches and research results for future reuse.
+- Working: active context, goals, system state.
+- Episodic: past actions, results, success patterns.
+- Vector store for semantic search of past findings.
+- Knowledge graph (optional): Neo4j for semantic relationship tracking.
+
+### Multi-Agent Supervision (for smaller models)
+- Execution monitoring: detect loops (identical tool calls > threshold), auto-invoke mentor.
+- Intelligent task planning: decompose into 3-7 actionable steps before specialist agents begin.
+- Scope management: prevent scope creep — keep agents focused on current subtask.
+- 2x quality improvement with 2-3x token cost — trade-off worth it for complex tasks.
+
+### Chain Summarization (context management)
+- Selectively summarize older messages to prevent token limit overflow.
+- Preserve last section intact (most recent context).
+- QA pair summarization: compress question-answer pairs while keeping flow.
+- Configurable thresholds: max body pair size, max QA sections, last section size.
+
+### Reporting & Remediation
+- Generate thorough vulnerability reports with exploitation guides.
+- AI-generated security patches as ready-to-merge PRs (auto-fix).
+- Compliance-ready pentest reports (SOC 2, ISO 27001, PCI DSS).
+- Re-scan after fix to verify remediation.
+
+### Sandboxed Execution
+- All operations in isolated Docker containers — complete isolation.
+- Never run untrusted code on host.
+- Smart container management: auto-select Docker image based on task requirements.
