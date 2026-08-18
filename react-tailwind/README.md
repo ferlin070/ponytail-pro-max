@@ -24,7 +24,22 @@ npm run dev          # start dev server
 npm test             # 22 tests
 npm run typecheck    # strict TS
 npm run build        # tsc + vite build
+npm run size         # check source bytes against the cap (pass yours: npm run size -- 40)
+npm run init my-app  # scaffold a real app (replaces demo, domain stubs, .ponytail-ready)
+npm run verify       # all gates in one command
+npm run deploy       # build + deploy to Netlify/Vercel for an early URL
 ```
+
+## Starting a new React app
+```bash
+npx degit ferlin070/ponytail-pro-max my-app
+cd my-app/react-tailwind
+npm install
+npm run init my-app   # replaces the demo with a CRUD shell wired to the hooks
+npm run dev
+```
+`init` writes domain stubs (`types.ts`/`domain.ts`/`store.ts`), a fresh `App.tsx`,
+renames the package, and arms the demo guard (`assert-app` in verify).
 
 ## The demo (`src/App.tsx`)
 A full CRUD app proving every weapon together:

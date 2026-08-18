@@ -5,11 +5,13 @@
  * Runs every gate in order, prints PASS/FAIL, exits non-zero on first failure:
  *   1. assert-app   (no demo markers in a derived app)
  *   2. typecheck    (strict TS)
- *   3. test         (unit + a11y)
- *   4. build        (production build)
- *   5. size         (under byte cap)
- *   6. git status   (clean working tree)
- *   7. git log      (committed + pushed)
+ *   3. test         (unit)
+ *   4. a11y         (axe pattern baseline)
+ *   5. a11y-scan    (real axe-core scan of the built DOM)
+ *   6. build        (production build)
+ *   7. size         (under byte cap)
+ *   8. git status   (clean working tree)
+ *   9. git log      (committed + pushed)
  *
  * Usage: node scripts/verify.mjs   (or npm run verify)
  */
@@ -26,6 +28,7 @@ const steps = [
   { name: 'typecheck', cmd: 'npm', args: ['run', 'typecheck'] },
   { name: 'test', cmd: 'npm', args: ['test'] },
   { name: 'a11y', cmd: 'npm', args: ['run', 'test:a11y'] },
+  { name: 'a11y-scan', cmd: 'npm', args: ['run', 'test:a11y:scan'] },
   { name: 'build', cmd: 'npm', args: ['run', 'build'] },
   { name: 'size', cmd: 'npm', args: ['run', 'size'] },
   { name: 'git-status', cmd: 'git', args: ['status', '--porcelain'] },

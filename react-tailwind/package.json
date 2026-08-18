@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
+    "size": "node scripts/sizecheck.mjs",
     "verify": "node scripts/verify.mjs",
+    "init": "node scripts/init.mjs",
     "deploy": "node scripts/deploy.mjs"
   },
   "dependencies": {

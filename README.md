@@ -47,12 +47,31 @@ git remote remove origin
 | `npm run dev` | Vite dev server |
 | `npm test` | Unit tests (Vitest + jsdom) |
 | `npm run test:a11y` | Accessibility tests (axe patterns) |
+| `npm run test:a11y:scan` | **Real axe-core scan of the built app DOM — 0 violations required** |
 | `npm run typecheck` | Strict TypeScript check |
 | `npm run build` | Type-check + production build |
-| `npm run size` | Check if source is under the byte cap |
-| `npm run verify` | **All gates in one command** (template guard, typecheck, test, a11y, build, size, git status) — run before every push |
+| `npm run size` | Check if source is under the byte cap (pass yours: `npm run size -- 40`) |
+| `npm run verify` | **All gates in one command** (template guard, typecheck, test, a11y, a11y scan, build, size, git status) — run before every push |
 | `npm run init` | Scaffold a real app (replace demo, create module stubs, rename package) |
+| `npm run brief "<text>"` | **Brief → scaffold**: PRD.md + DESIGN.md (picked by keyword) + domain stubs + checklist |
+| `npm run seed` | Starter data via `makeSeed` + DESIGN.md if missing |
+| `npm run audit` | Self-score against the rubric (Completeness / P&D / Craft) — fix the ❌ rows |
 | `npm run deploy` | Build + deploy to Netlify/Vercel for an early URL |
+
+## Workflow from a brief (90 minutes)
+
+```bash
+npx degit ferlin070/ponytail-pro-max my-app
+cd my-app
+npm install
+npm run brief "Expense tracker in Malay with categories and CSV export"
+#  → PRD.md checklist, DESIGN.md (fintech), types/schema/storage stubs, schema.test.ts
+npm run seed          # starter data + seed test
+npm run dev           # build your app to the PRD checklist
+npm run audit         # self-score → fix ❌ rows
+npm run verify        # all gates
+# push early, keep it verified; CI auto-deploys to Netlify if secrets are set
+```
 
 ## Speed start (real app in one step)
 

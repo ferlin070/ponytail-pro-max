@@ -12,19 +12,24 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:a11y": "vitest run --config vitest.a11y.config.ts",
+    "test:a11y:scan": "vitest run --config vitest.a11y-scan.config.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
     "size": "node scripts/sizecheck.mjs",
     "verify": "node scripts/verify.mjs",
     "init": "node scripts/init.mjs",
+    "brief": "node scripts/brief.mjs",
+    "seed": "node scripts/seed.mjs",
+    "audit": "node scripts/audit.mjs",
     "deploy": "node scripts/deploy.mjs"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.0",
+    "axe-core": "^4.13.0",
+    "jsdom": "^24.1.1",
+    "playwright": "^1.47.0",
     "typescript": "^5.5.4",
     "vite": "^5.4.0",
-    "vitest": "^2.0.5",
-    "jsdom": "^24.1.1",
-    "@axe-core/playwright": "^4.10.0",
-    "playwright": "^1.47.0"
+    "vitest": "^2.0.5"
   }
 }

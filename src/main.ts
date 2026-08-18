@@ -77,12 +77,13 @@ function render(): void {
         </ul>
 
         ${items.length === 0 ? '<div class="empty">No items yet. Add one above.</div>' : ''}
+
+        <div class="toast-container" aria-live="polite"></div>
+        <div class="loading-overlay" ${getState().loading ? '' : 'hidden'}>
+          <div class="loading-overlay__spinner" aria-hidden="true"></div>
+          <p>Loading…</p>
+        </div>
       </main>
-    </div>
-    <div class="toast-container" aria-live="polite"></div>
-    <div class="loading-overlay" ${getState().loading ? '' : 'hidden'}>
-      <div class="loading-overlay__spinner" aria-hidden="true"></div>
-      <p>Loading…</p>
     </div>
   `;
 }
