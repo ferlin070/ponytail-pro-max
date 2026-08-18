@@ -199,3 +199,31 @@ MINUTE 85–90:  Audit:
 - Edge functions use Hono framework, return Response objects.
 - Environment variables via `env` binding, never hardcode.
 - CORS headers set explicitly on all API responses.
+
+---
+
+## RULES FROM CAMOUFOX (anti-detect browser patterns — always active)
+
+### Security & Fingerprint Hardening
+- Never expose implementation details to the page: sensitive logic runs in isolated scope, not injectable JS.
+- Spoofing/hardening happens at the implementation level (C++/native), not via injected JavaScript — page-side inspection must not detect it.
+- Config is injected via environment variables or config files, never hardcoded in source.
+- Mouse/cursor interactions use human-like trajectories (Bezier curves + jitter), not linear jumps.
+
+### Build & Patch Workflow
+- The source tree is regenerated — persist changes as patches, never as edits committed to the generated tree.
+- Keep the Makefile diff clean — dependency setup lives in install scripts, not the Makefile.
+- Every PR must pass both test suites: binary-level tests AND service/package-level tests.
+- Use `ccache` for fast incremental rebuilds.
+
+### Testing Discipline (from Camoufox)
+- Two test layers required: (1) raw binary/component tests bypassing the package, (2) service/API tests.
+- Tests cover different layers — one passing doesn't mean the other will.
+- Run tests headless by default; add `headful=true` for visual debugging.
+
+### Config Validation
+- Config schemas use a JSON-with-validation format (type + constraints).
+- Every config field is validated on load — invalid configs fail fast with clear errors.
+- Fingerprint presets are real scraped data, not synthetic — test with realistic inputs.
+- Environment variables via `env` binding, never hardcode.
+- CORS headers set explicitly on all API responses.
