@@ -506,5 +506,53 @@ When building a CRUD-heavy competition app:
 - Grouped, quiet sidebar. Common choices visible, deep options one tap away.
 - Search box across ALL settings categories with highlight.
 - Short hint under every control — never leave user guessing.
+
+---
+
+## REFERENCE: AWESOME LLM APPS (pattern library — consult before building AI features)
+
+100+ open-source AI agent templates, tested end-to-end. Consult for proven patterns:
+
+### Agent Skill Patterns
+- **Self-improving skills**: skills that rewrite themselves against evals.
+- **Scope creep detector**: checks if a diff grew beyond stated intent.
+- **Commit archaeologist**: reconstructs WHY code exists from git history.
+- **Dependency doctor**: checks manifests for obsolete/pinned/yanked entries.
+
+### Multi-Agent Team Patterns
+- **Advisor/Orchestrator/Worker**: one model advises, one orchestrates, one executes.
+- **Trust-gated teams**: every agent verified, every action in a hash-chained audit trail.
+- **Specialist teams**: each agent owns one domain (legal, finance, design, research).
+- **Mixture of agents**: multiple LLMs answer, one aggregates the best response.
+
+### RAG Patterns (when app needs retrieval)
+- **Corrective RAG (CRAG)**: retrieval grades itself, retries before answering.
+- **Hybrid search**: keyword + vector + RRF fusion.
+- **Agentic RAG with reasoning**: agent shows step-by-step retrieval reasoning.
+- **RAG failure diagnostics**: systematically find why a RAG pipeline is wrong.
+- **Knowledge graph RAG**: multi-hop answers with verifiable source attribution.
+
+### Memory Patterns
+- **Personalized memory**: bot keeps context across conversations.
+- **Multi-LLM shared memory**: different models, one shared conversation memory.
+- **Stateful chat**: session-persistent with local models.
+
+### Generative UI Patterns (agents that render UI, not just text)
+- **Chat-driven kanban**: agent and user work the board together.
+- **Dashboard canvas**: describe a dashboard in chat, charts assemble live.
+- **Component generator**: chat your way to production-ready UI components.
+- **Research workspace**: every tool call renders as a live workspace card.
+
+### Always-On Agent Patterns
+- **Scheduled scouts**: run on interval, deliver ranked brief to Slack/email.
+- **Release radar**: watch dependencies, brief on breaking/security/major changes.
+
+### Competition Application
+When a competition brief needs AI features, consult these patterns:
+1. Single-file starter: one file, one API key, one feature — ship in 30 seconds.
+2. Multi-agent: split complex tasks across specialist agents with clear handoffs.
+3. RAG: use corrective/hybrid patterns — never plain vector search alone.
+4. Memory: persist user preferences across sessions — not just chat history.
+5. Generative UI: render interactive cards, not just text responses.
 - Environment variables via `env` binding, never hardcode.
 - CORS headers set explicitly on all API responses.
