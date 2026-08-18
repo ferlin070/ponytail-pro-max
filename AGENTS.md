@@ -253,5 +253,41 @@ MINUTE 85–90:  Audit:
 - Config schemas use a JSON-with-validation format (type + constraints).
 - Every config field is validated on load — invalid configs fail fast with clear errors.
 - Fingerprint presets are real scraped data, not synthetic — test with realistic inputs.
+
+---
+
+## RULES FROM TENCENTDB AGENT MEMORY (layered memory patterns — always active)
+
+### Memory Layering: Progressive Disclosure
+- Never flat-store context. Layer it: raw logs → step summaries → lightweight state canvas.
+- Agent attends to the top-layer structure; drills down to lower layers only when an error occurs.
+- Lower layers preserve evidence; upper layers preserve structure.
+
+### Symbolic Memory: Max Semantics in Min Symbols
+- Encode task state transitions as high-density symbols (Mermaid/diagrams), not verbose prose.
+- Offload full tool logs to external files; keep only a lightweight task map in context.
+- Use `node_id` tracing: reason over symbols, grep for detail when needed.
+- Goal: cut token usage while preserving full traceability.
+
+### Full Traceability & Lossless Recovery
+- Never do irreversible compression. Maintain a deterministic path from abstractions back to ground truth.
+- Drill-down chain: top-layer symbol → mid-layer index → bottom-layer raw text.
+- When recalling, guarantee a complete path back to source evidence.
+
+### White-Box Debuggability
+- Memory is not a black box. Keep intermediates as readable files (Markdown, Mermaid, JSONL).
+- When recall is wrong, walk the chain until root cause surfaces — don't probe an opaque database.
+- L2 scenarios = plain Markdown. L3 persona = readable file. Task canvases = Mermaid.
+
+### Recall Strategy
+- Use hybrid retrieval: keyword (BM25) + vector (embedding) + RRF fusion.
+- On recall timeout: skip injection without blocking the conversation.
+- Dedup memories with vector similarity to avoid redundant context.
+
+### Session Pipeline
+- Extract memories every N turns (default 5), not every turn.
+- Warm-up: new session triggers from turn 1, doubling each time (1→2→4…).
+- Generate user persona every N new memories (default 50).
+- Idle timeout triggers extraction after inactivity (default 600s).
 - Environment variables via `env` binding, never hardcode.
 - CORS headers set explicitly on all API responses.
