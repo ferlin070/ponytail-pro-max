@@ -6,12 +6,13 @@
  *   1. assert-app   (no demo markers in a derived app)
  *   2. typecheck    (strict TS)
  *   3. test         (unit)
- *   4. a11y         (axe pattern baseline)
- *   5. a11y-scan    (real axe-core scan of the built DOM)
- *   6. build        (production build)
- *   7. size         (under byte cap)
- *   8. git status   (clean working tree)
- *   9. git log      (committed + pushed)
+ *   4. coverage     (v8 thresholds on lib + schema/seed)
+ *   5. a11y         (axe pattern baseline)
+ *   6. a11y-scan    (real axe-core scan of the built DOM)
+ *   7. build        (production build)
+ *   8. size         (under byte cap)
+ *   9. git status   (clean working tree)
+ *  10. git log      (committed + pushed)
  *
  * Usage: node scripts/verify.mjs   (or npm run verify)
  */
@@ -27,6 +28,7 @@ const steps = [
   { name: 'assert-app', cmd: 'node', args: ['scripts/assert-app.mjs'] },
   { name: 'typecheck', cmd: 'npm', args: ['run', 'typecheck'] },
   { name: 'test', cmd: 'npm', args: ['test'] },
+  { name: 'coverage', cmd: 'npm', args: ['run', 'test:coverage'] },
   { name: 'a11y', cmd: 'npm', args: ['run', 'test:a11y'] },
   { name: 'a11y-scan', cmd: 'npm', args: ['run', 'test:a11y:scan'] },
   { name: 'build', cmd: 'npm', args: ['run', 'build'] },

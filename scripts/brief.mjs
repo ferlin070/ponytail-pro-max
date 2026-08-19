@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * brief — brief to scaffold in one command.
+ * brief â€” brief to scaffold in one command.
  *
  * Writes PRD.md (requirements checklist), DESIGN.md (picked from designs/ by
  * keyword), and domain stubs (types/schema/storage + a test plan). If the repo
@@ -85,10 +85,10 @@ const features = featureKws.filter(([label, kw]) => feature(kw)).map(([label]) =
 const missingLine = isMalay
   ? '- [ ] (tulis semula keperluan dari brief sebagai item boleh semak)'
   : '- [ ] (rewrite brief requirements as checkable items)';
-const noneFound = isMalay ? '- (tiada ciri jelas dikesan — senarai dari brief)' : '- (no clear features detected — list from brief)';
+const noneFound = isMalay ? '- (tiada ciri jelas dikesan â€” senarai dari brief)' : '- (no clear features detected â€” list from brief)';
 
 const prd = isMalay
-  ? `# PRD — ${name}
+  ? `# PRD â€” ${name}
 
 ## Brief
 ${raw}
@@ -107,7 +107,7 @@ ${features.length ? features.map((f) => `- [ ] ${f}`).join('\n') : noneFound}
 - [ ] Kendalian ralat: banner kekal role="alert", jangan telan ralat
 - [ ] Penyimpanan: createStore selamat ralat; sahkan setiap rekod semasa muat
 - [ ] escapeHtml sebelum innerHTML
-- [ ] Data biji (src/lib/seed.ts → makeSeed)
+- [ ] Data biji (src/lib/seed.ts â†’ makeSeed)
 - [ ] Logik domain tulen + unit-tested
 - [ ] Keadaan kosong + keadaan memuat
 
@@ -115,9 +115,9 @@ ${features.length ? features.map((f) => `- [ ] ${f}`).join('\n') : noneFound}
 - [ ] npm run typecheck && npm test && npm run build
 - [ ] npm run size di bawah had (lulus had anda: npm run size -- 40)
 - [ ] npm run audit (skor sendiri)
-- [ ] Imbasan axe: npm run test:a11y:scan — 0 pelanggaran
+- [ ] Imbasan axe: npm run test:a11y:scan â€” 0 pelanggaran
 `
-  : `# PRD — ${name}
+  : `# PRD â€” ${name}
 
 ## Brief
 ${raw}
@@ -136,7 +136,7 @@ ${features.length ? features.map((f) => `- [ ] ${f}`).join('\n') : noneFound}
 - [ ] Error handling: persistent role="alert" banner, never swallow
 - [ ] Storage: error-safe createStore; validate every record on load
 - [ ] escapeHtml before innerHTML
-- [ ] Seed data present (src/lib/seed.ts → makeSeed)
+- [ ] Seed data present (src/lib/seed.ts â†’ makeSeed)
 - [ ] Domain logic pure + unit-tested
 - [ ] Empty state + loading state
 
@@ -144,7 +144,7 @@ ${features.length ? features.map((f) => `- [ ] ${f}`).join('\n') : noneFound}
 - [ ] npm run typecheck && npm test && npm run build
 - [ ] npm run size under cap (pass your cap: npm run size -- 40)
 - [ ] npm run audit (self-score)
-- [ ] axe scan: npm run test:a11y:scan — 0 violations
+- [ ] axe scan: npm run test:a11y:scan â€” 0 violations
 `;
 
 writeFileSync(join(ROOT, 'PRD.md'), prd);
@@ -153,9 +153,9 @@ writeFileSync(join(ROOT, 'PRD.md'), prd);
 if (!existsSync(join(ROOT, 'DESIGN.md'))) {
   if (existsSync(designSrc)) {
     writeFileSync(join(ROOT, 'DESIGN.md'), readFileSync(designSrc, 'utf8'));
-    console.log(`  [brief] ✅ DESIGN.md written (from designs/${designFile}).`);
+    console.log(`  [brief] âœ… DESIGN.md written (from designs/${designFile}).`);
   } else {
-    console.log(`  [brief] ⚠️ design file not found (${designFile}); DESIGN.md skipped.`);
+    console.log(`  [brief] âš ï¸ design file not found (${designFile}); DESIGN.md skipped.`);
   }
 }
 
@@ -165,7 +165,7 @@ import { detectDomain } from './lib/domains.mjs';
 mkdirSync(join(ROOT, 'src'), { recursive: true });
 const domain = detectDomain(raw);
 const domainLabel = isMalay
-  ? ({ finance: 'kewangan', ecommerce: 'e-dagang', task: 'tugas', generic: 'generik' })[domain.key] ?? 'generik'
+  ? ({ finance: 'kewangan', ecommerce: 'e-dagang', task: 'tugas', booking: 'tempahan', crm: 'crm', fitness: 'kecergasan', library: 'perpustakaan', generic: 'generik' })[domain.key] ?? 'generik'
   : domain.key;
 
 // overwrite the comment-only stubs init.mjs left behind; keep any real code you wrote
@@ -180,24 +180,24 @@ const wroteSchema = writeDomain('schema.ts', domain.schema);
 const wroteStorage = writeDomain('storage.ts', domain.storage);
 const wroteTest = writeDomain('tests/schema.test.ts', domain.test);
 
-console.log(`  [brief] ✅ PRD.md written (${sentences.length} requirement lines, ${isMalay ? 'Bahasa Melayu' : 'English'}).`);
-console.log(`  [brief] 🧩 Domain detected: ${domainLabel} — working model + tests generated.`);
+console.log(`  [brief] âœ… PRD.md written (${sentences.length} requirement lines, ${isMalay ? 'Bahasa Melayu' : 'English'}).`);
+console.log(`  [brief] ðŸ§© Domain detected: ${domainLabel} â€” working model + tests generated.`);
 for (const [f, did] of [['src/types.ts', wroteTypes], ['src/schema.ts', wroteSchema], ['src/storage.ts', wroteStorage], ['src/tests/schema.test.ts', wroteTest]]) {
-  console.log(`  [brief] ${did ? '✅' : '⏭  keep'} ${f}`);
+  console.log(`  [brief] ${did ? 'âœ…' : 'â­  keep'} ${f}`);
 }
 
 const next = isMalay
   ? [
-      `      1. Domain ${domainLabel} siap — semak src/types.ts + src/schema.ts`,
+      `      1. Domain ${domainLabel} siap â€” semak src/types.ts + src/schema.ts`,
       '      2. Sambung createStore dalam src/storage.ts ke UI (src/main.ts)',
       '      3. Lengkapkan src/main.ts render()/events mengikut senarai semak',
-      '      4. npm run seed   (data biji realistik)  →  npm run audit  →  npm run verify  →  push',
+      '      4. npm run seed   (data biji realistik)  â†’  npm run audit  â†’  npm run verify  â†’  push',
     ]
   : [
-      `      1. Domain "${domainLabel}" scaffolded — review src/types.ts + src/schema.ts`,
+      `      1. Domain "${domainLabel}" scaffolded â€” review src/types.ts + src/schema.ts`,
       '      2. Wire the store from src/storage.ts into the UI (src/main.ts)',
       '      3. Fill src/main.ts render()/events to the checklist',
-      '      4. npm run seed   (realistic seed data)  →  npm run audit  →  npm run verify  →  push',
+      '      4. npm run seed   (realistic seed data)  â†’  npm run audit  â†’  npm run verify  â†’  push',
     ];
 console.log('\n  [brief] Next:');
 for (const line of next) console.log(line);

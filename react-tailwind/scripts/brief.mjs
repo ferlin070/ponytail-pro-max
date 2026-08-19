@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * brief (React variant) — brief to scaffold in one command.
+ * brief (React variant) â€” brief to scaffold in one command.
  *
  * Writes PRD.md (requirements checklist, EN or Bahasa Melayu), DESIGN.md
  * (from ../designs when present, else the built-in Tailwind theme), and
@@ -86,10 +86,10 @@ const features = featureKws.filter(([label, kw]) => feature(kw)).map(([label]) =
 const missingLine = isMalay
   ? '- [ ] (tulis semula keperluan dari brief sebagai item boleh semak)'
   : '- [ ] (rewrite brief requirements as checkable items)';
-const noneFound = isMalay ? '- (tiada ciri jelas dikesan — senarai dari brief)' : '- (no clear features detected — list from brief)';
+const noneFound = isMalay ? '- (tiada ciri jelas dikesan â€” senarai dari brief)' : '- (no clear features detected â€” list from brief)';
 
 const prd = isMalay
-  ? `# PRD — ${name}
+  ? `# PRD â€” ${name}
 
 ## Brief
 ${raw}
@@ -107,8 +107,8 @@ ${features.length ? features.map((f) => `- [ ] ${f}`).join('\n') : noneFound}
 - [ ] .sr-only untuk teks tersembunyi; prefers-reduced-motion runtuhkan animasi
 - [ ] Kendalian ralat: banner kekal role="alert", jangan telan ralat
 - [ ] Penyimpanan: useLocalStorage selamat ralat; sahkan setiap rekod semasa muat
-- [ ] React mengelak XSS secara lalai (JSX) — jangan guna innerHTML
-- [ ] Data biji (src/lib/seed.ts → makeSeed)
+- [ ] React mengelak XSS secara lalai (JSX) â€” jangan guna innerHTML
+- [ ] Data biji (src/lib/seed.ts â†’ makeSeed)
 - [ ] Logik domain tulen + unit-tested
 - [ ] Keadaan kosong + keadaan memuat
 
@@ -117,7 +117,7 @@ ${features.length ? features.map((f) => `- [ ] ${f}`).join('\n') : noneFound}
 - [ ] npm run size di bawah had (lulus had anda: npm run size -- 40)
 - [ ] npm run audit (skor sendiri)
 `
-  : `# PRD — ${name}
+  : `# PRD â€” ${name}
 
 ## Brief
 ${raw}
@@ -135,8 +135,8 @@ ${features.length ? features.map((f) => `- [ ] ${f}`).join('\n') : noneFound}
 - [ ] .sr-only for hidden text; prefers-reduced-motion collapses animation
 - [ ] Error handling: persistent role="alert" banner, never swallow
 - [ ] Storage: useLocalStorage is error-safe; validate every record on load
-- [ ] React escapes by default (JSX) — no innerHTML
-- [ ] Seed data present (src/lib/seed.ts → makeSeed)
+- [ ] React escapes by default (JSX) â€” no innerHTML
+- [ ] Seed data present (src/lib/seed.ts â†’ makeSeed)
 - [ ] Domain logic pure + unit-tested
 - [ ] Empty state + loading state
 
@@ -153,9 +153,9 @@ if (!existsSync(join(ROOT, 'DESIGN.md'))) {
   const designSrc = join(ROOT, 'designs', designFile.endsWith('.md') ? designFile : designFile + '.md');
   if (existsSync(designSrc)) {
     writeFileSync(join(ROOT, 'DESIGN.md'), readFileSync(designSrc, 'utf8'));
-    console.log(`  [brief] ✅ DESIGN.md written (from designs/${designFile}).`);
+    console.log(`  [brief] âœ… DESIGN.md written (from designs/${designFile}).`);
   } else {
-    writeFileSync(join(ROOT, 'DESIGN.md'), `# DESIGN.md — ${name}
+    writeFileSync(join(ROOT, 'DESIGN.md'), `# DESIGN.md â€” ${name}
 
 React + Tailwind v4 theme (from src/index.css @theme). Stay on these tokens.
 - bg #0f172a, surface #1e293b, surface-alt #334155, border #334155
@@ -165,7 +165,7 @@ React + Tailwind v4 theme (from src/index.css @theme). Stay on these tokens.
 - Layout: max-w-3xl mx-auto px-4 py-6; rounded-lg/xl cards on surface.
 - 4.5:1 contrast on all text (white on primary passes).
 `);
-    console.log('  [brief] ✅ DESIGN.md written (built-in React theme).');
+    console.log('  [brief] âœ… DESIGN.md written (built-in React theme).');
   }
 }
 
@@ -173,7 +173,7 @@ React + Tailwind v4 theme (from src/index.css @theme). Stay on these tokens.
 mkdirSync(join(ROOT, 'src'), { recursive: true });
 const domain = detectDomain(raw);
 const domainLabel = isMalay
-  ? ({ finance: 'kewangan', ecommerce: 'e-dagang', task: 'tugas', generic: 'generik' })[domain.key] ?? 'generik'
+  ? ({ finance: 'kewangan', ecommerce: 'e-dagang', task: 'tugas', booking: 'tempahan', crm: 'crm', fitness: 'kecergasan', library: 'perpustakaan', generic: 'generik' })[domain.key] ?? 'generik'
   : domain.key;
 
 // overwrite the comment-only stubs init.mjs left behind; keep any real code you wrote
@@ -188,24 +188,24 @@ const wroteDomain = writeDomain('domain.ts', domain.rdomain);
 const wroteStore = writeDomain('store.ts', domain.rstore);
 const wroteTest = writeDomain('tests/domain.test.ts', domain.rtest);
 
-console.log(`  [brief] ✅ PRD.md written (${sentences.length} requirement lines, ${isMalay ? 'Bahasa Melayu' : 'English'}).`);
-console.log(`  [brief] 🧩 Domain detected: ${domainLabel} — working model + tests generated.`);
+console.log(`  [brief] âœ… PRD.md written (${sentences.length} requirement lines, ${isMalay ? 'Bahasa Melayu' : 'English'}).`);
+console.log(`  [brief] ðŸ§© Domain detected: ${domainLabel} â€” working model + tests generated.`);
 for (const [f, did] of [['src/types.ts', wroteTypes], ['src/domain.ts', wroteDomain], ['src/store.ts', wroteStore], ['src/tests/domain.test.ts', wroteTest]]) {
-  console.log(`  [brief] ${did ? '✅' : '⏭  keep'} ${f}`);
+  console.log(`  [brief] ${did ? 'âœ…' : 'â­  keep'} ${f}`);
 }
 
 const next = isMalay
   ? [
-      `      1. Domain ${domainLabel} siap — semak src/types.ts + src/domain.ts`,
-      '      2. Semak src/store.ts — item type guard (isItem) sudah dieksport',
+      `      1. Domain ${domainLabel} siap â€” semak src/types.ts + src/domain.ts`,
+      '      2. Semak src/store.ts â€” item type guard (isItem) sudah dieksport',
       '      3. Lengkapkan src/App.tsx (borang, senarai, events)',
-      '      4. npm run seed   (data biji realistik)  →  npm run audit  →  npm run verify  →  push',
+      '      4. npm run seed   (data biji realistik)  â†’  npm run audit  â†’  npm run verify  â†’  push',
     ]
   : [
-      `      1. Domain "${domainLabel}" scaffolded — review src/types.ts + src/domain.ts`,
-      '      2. src/store.ts exports the type guard (isItem) — wire it into App.tsx',
+      `      1. Domain "${domainLabel}" scaffolded â€” review src/types.ts + src/domain.ts`,
+      '      2. src/store.ts exports the type guard (isItem) â€” wire it into App.tsx',
       '      3. Fill src/App.tsx (form fields, list, events)',
-      '      4. npm run seed   (realistic seed data)  →  npm run audit  →  npm run verify  →  push',
+      '      4. npm run seed   (realistic seed data)  â†’  npm run audit  â†’  npm run verify  â†’  push',
     ];
 console.log('\n  [brief] Next:');
 for (const line of next) console.log(line);

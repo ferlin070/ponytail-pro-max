@@ -91,7 +91,18 @@ if (target === 'netlify') {
   }
   console.log(`  [deploy] ✅ uploaded to ${dest}. Point nginx at ${dir} (SPA fallback → /index.html).`);
   console.log('  [deploy] Tip: nginx config sample in nginx.conf at repo root.\n');
+} else if (target === 'github-pages') {
+  const r = run('npx', ['gh-pages', '-d', dist]);
+  if (r.status !== 0) {
+    console.log('\n  [deploy] gh-pages failed. Push once to origin first, then re-run.\n');
+    process.exit(1);
+  }
+  const remote = (run('git', ['remote', 'get-url', 'origin'], { stdio: 'pipe' }).stdout || '').trim();
+  const m = /github\.com[:/]([^/]+)\/([^/]+?)(?:\.git)?$/.exec(remote);
+  const url = m ? `https://${m[1]}.github.io/${m[2]}/` : 'https://<user>.github.io/<repo>/';
+  console.log(`  [deploy] ✅ published to GitHub Pages: ${url}`);
+  console.log('  [deploy] Set the submission URL: SUBMIT_URL=' + url + '\n');
 } else {
-  console.error('  [deploy] Unknown target "' + target + '". Use netlify, vercel, docker or ssh.');
+  console.error('  [deploy] Unknown target "' + target + '". Use netlify, vercel, docker, ssh or github-pages.');
   process.exit(1);
 }

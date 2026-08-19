@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
 /**
  * Domain templates for the React variant. Self-contained (react-tailwind is
  * a standalone package â€” no imports from the vanilla repo's scripts).
@@ -231,7 +231,326 @@ describe('tasks', () => {
     done: i % 3 === 0,
     priority: (['low', 'medium', 'high'] as const)[i % 3] ?? 'medium',
   })`,
+categories: [],
+  },
+
+  booking: {
+    key: 'booking',
+    kind: 'Booking',
+    detect: /\b(book|booking|booked|reserve|reservation|appointment|slot|schedule|hotel|flight|seat|venue)\b|(tempah|tempahan|janji|jadual|slot)/,
+    names: ['Dinner table', 'Hotel room', 'Haircut', 'Dental check', 'Flight', 'Yoga class', 'Meeting room', 'Car service'],
+    rtypes: `// Domain types — the single source of truth for this app.
+export type BookingStatus = 'confirmed' | 'pending' | 'cancelled';
+
+export interface Booking {
+  id: string;
+  title: string;
+  date: string; // YYYY-MM-DD
+  time: string; // HH:mm
+  guests: number;
+  status: BookingStatus;
+  createdAt: number;
+}
+`,
+    rdomain: `// Pure domain logic for bookings. Side-effect free + unit-tested.
+import type { Booking, BookingStatus } from './types';
+
+export const STATUSES: readonly BookingStatus[] = ['confirmed', 'pending', 'cancelled'];
+
+export function isBooking(v: unknown): v is Booking {
+  if (typeof v !== 'object' || v === null) return false;
+  const o = v as Record<string, unknown>;
+  return (
+    typeof o.id === 'string' &&
+    typeof o.title === 'string' &&
+    typeof o.date === 'string' &&
+    typeof o.time === 'string' &&
+    typeof o.guests === 'number' && o.guests >= 0 &&
+    STATUSES.includes(o.status as BookingStatus) &&
+    typeof o.createdAt === 'number'
+  );
+}
+
+export function totalGuests(items: Booking[]): number {
+  return items.reduce((t, b) => t + b.guests, 0);
+}
+
+export function confirmedBookings(items: Booking[]): number {
+  return items.filter((b) => b.status === 'confirmed').length;
+}
+`,
+    rstore: `// Persistence hook-in: export the type + guard for useLocalStorage.
+export type { Booking as Item } from './types';
+export { isBooking as isItem } from './domain';
+`,
+    rtest: `import { describe, it, expect } from 'vitest';
+import { isBooking, totalGuests, confirmedBookings } from '../domain';
+import type { Booking } from '../types';
+
+const items: Booking[] = [
+  { id: '1', title: 'Dinner table', date: '2026-08-01', time: '19:30', guests: 4, status: 'confirmed', createdAt: 1 },
+  { id: '2', title: 'Hotel room', date: '2026-08-02', time: '15:00', guests: 2, status: 'pending', createdAt: 2 },
+];
+
+describe('bookings', () => {
+  it('validates records', () => {
+    for (const it of items) expect(isBooking(it)).toBe(true);
+  });
+  it('totals guests and counts confirmed', () => {
+    expect(totalGuests(items)).toBe(6);
+    expect(confirmedBookings(items)).toBe(1);
+  });
+});
+`,
+    seed: (i, names, _cats, daysAgoISO) => `({
+    title: ${JSON.stringify(names)}[i % ${names.length}] ?? 'Item',
+    date: daysAgoISO(i),
+    time: (['09:00', '12:30', '15:00', '19:30'] as const)[i % 4] ?? '09:00',
+    guests: (i % 6) + 1,
+    status: (['confirmed', 'pending', 'cancelled'] as const)[i % 3] ?? 'pending',
+  })`,
+    categories: ['Room', 'Table', 'Class', 'Consultation', 'Vehicle'],
+  },
+
+  crm: {
+    key: 'crm',
+    kind: 'Contact',
+    detect: /\b(crm|contact|lead|customer|client|prospect|deal|sales|relationship|email|phone)\b|(kenalan|pelanggan|prospek)/,
+    names: ['Aisyah Rahman', 'John Tan', 'Siti Aminah', 'Raj Kumar', 'Mei Ling', 'Ahmad Faiz', 'Nurul Huda', 'Peter Wong'],
+    rtypes: `// Domain types — the single source of truth for this app.
+export type ContactStatus = 'lead' | 'active' | 'closed';
+
+export interface Contact {
+  id: string;
+  name: string;
+  email: string;
+  company: string;
+  phone: string;
+  status: ContactStatus;
+  createdAt: number;
+}
+`,
+    rdomain: `// Pure domain logic for contacts. Side-effect free + unit-tested.
+import type { Contact, ContactStatus } from './types';
+
+export const STATUSES: readonly ContactStatus[] = ['lead', 'active', 'closed'];
+
+export function isContact(v: unknown): v is Contact {
+  if (typeof v !== 'object' || v === null) return false;
+  const o = v as Record<string, unknown>;
+  return (
+    typeof o.id === 'string' &&
+    typeof o.name === 'string' &&
+    typeof o.email === 'string' &&
+    typeof o.company === 'string' &&
+    typeof o.phone === 'string' &&
+    STATUSES.includes(o.status as ContactStatus) &&
+    typeof o.createdAt === 'number'
+  );
+}
+
+export function activeContacts(items: Contact[]): number {
+  return items.filter((c) => c.status === 'active').length;
+}
+
+export function countByStatus(items: Contact[], status: ContactStatus): number {
+  return items.filter((c) => c.status === status).length;
+}
+
+export function byCompany(items: Contact[], company: string): Contact[] {
+  return items.filter((c) => c.company.toLowerCase() === company.toLowerCase());
+}
+`,
+    rstore: `// Persistence hook-in: export the type + guard for useLocalStorage.
+export type { Contact as Item } from './types';
+export { isContact as isItem } from './domain';
+`,
+    rtest: `import { describe, it, expect } from 'vitest';
+import { isContact, activeContacts, countByStatus } from '../domain';
+import type { Contact } from '../types';
+
+const items: Contact[] = [
+  { id: '1', name: 'Aisyah Rahman', email: 'aisy@example.com', company: 'Pintar Sdn Bhd', phone: '+601234567', status: 'active', createdAt: 1 },
+  { id: '2', name: 'John Tan', email: 'john@example.com', company: 'Maju Tech', phone: '+601111111', status: 'lead', createdAt: 2 },
+];
+
+describe('contacts', () => {
+  it('validates records', () => {
+    for (const it of items) expect(isContact(it)).toBe(true);
+  });
+  it('counts by status', () => {
+    expect(activeContacts(items)).toBe(1);
+    expect(countByStatus(items, 'lead')).toBe(1);
+  });
+});
+`,
+    seed: (i, names) => `({
+    name: ${JSON.stringify(names)}[i % ${names.length}] ?? 'Item',
+    email: 'user' + i + '@example.com',
+    company: (['Pintar Sdn Bhd', 'Maju Tech', 'Kreatif Studio'] as const)[i % 3] ?? 'Pintar Sdn Bhd',
+    phone: '+6012' + String(100000 + i),
+    status: (['lead', 'active', 'closed'] as const)[i % 3] ?? 'lead',
+  })`,
+    categories: ['lead', 'active', 'closed'],
+  },
+
+  fitness: {
+    key: 'fitness',
+    kind: 'Workout',
+    detect: /\b(fitness|gym|workout|exercise|run|running|step|calorie|calories|weight|train|swim|cycle)\b|(senaman|larian|kalori|gim|berat)/,
+    names: ['Morning run', 'HIIT', 'Yoga', 'Weight lifting', 'Cycling', 'Swimming', 'Core workout', 'Stretching'],
+    rtypes: `// Domain types — the single source of truth for this app.
+export interface Workout {
+  id: string;
+  title: string;
+  date: string; // YYYY-MM-DD
+  duration: number; // minutes
+  calories: number;
+  done: boolean;
+  createdAt: number;
+}
+`,
+    rdomain: `// Pure domain logic for workouts. Side-effect free + unit-tested.
+import type { Workout } from './types';
+
+export function isWorkout(v: unknown): v is Workout {
+  if (typeof v !== 'object' || v === null) return false;
+  const o = v as Record<string, unknown>;
+  return (
+    typeof o.id === 'string' &&
+    typeof o.title === 'string' &&
+    typeof o.date === 'string' &&
+    typeof o.duration === 'number' && o.duration >= 0 &&
+    typeof o.calories === 'number' && o.calories >= 0 &&
+    typeof o.done === 'boolean' &&
+    typeof o.createdAt === 'number'
+  );
+}
+
+export function totalDuration(items: Workout[]): number {
+  return items.reduce((t, w) => t + w.duration, 0);
+}
+
+export function totalCalories(items: Workout[]): number {
+  return items.reduce((t, w) => t + w.calories, 0);
+}
+
+export function completedCount(items: Workout[]): number {
+  return items.filter((w) => w.done).length;
+}
+`,
+    rstore: `// Persistence hook-in: export the type + guard for useLocalStorage.
+export type { Workout as Item } from './types';
+export { isWorkout as isItem } from './domain';
+`,
+    rtest: `import { describe, it, expect } from 'vitest';
+import { isWorkout, totalDuration, totalCalories, completedCount } from '../domain';
+import type { Workout } from '../types';
+
+const items: Workout[] = [
+  { id: '1', title: 'Morning run', date: '2026-08-01', duration: 30, calories: 300, done: true, createdAt: 1 },
+  { id: '2', title: 'HIIT', date: '2026-08-02', duration: 20, calories: 250, done: false, createdAt: 2 },
+];
+
+describe('workouts', () => {
+  it('validates records', () => {
+    for (const it of items) expect(isWorkout(it)).toBe(true);
+  });
+  it('totals duration and calories', () => {
+    expect(totalDuration(items)).toBe(50);
+    expect(totalCalories(items)).toBe(550);
+  });
+  it('counts completed', () => {
+    expect(completedCount(items)).toBe(1);
+  });
+});
+`,
+    seed: (i, names, _cats, daysAgoISO) => `({
+    title: ${JSON.stringify(names)}[i % ${names.length}] ?? 'Item',
+    date: daysAgoISO(i),
+    duration: ((i % 5) + 2) * 10,
+    calories: ((i % 5) + 2) * 90,
+    done: i % 2 === 0,
+  })`,
     categories: [],
+  },
+
+  library: {
+    key: 'library',
+    kind: 'Media',
+    detect: /\b(library|movie|film|music|album|media|video|read|watch|listen|novel)\b|(buku|media|filem|muzik|baca)/,
+    names: ['The Great Gatsby', 'Inception', 'Abbey Road', 'Dune', 'Interstellar', '1984', 'Thriller', 'Pride and Prejudice'],
+    rtypes: `// Domain types — the single source of truth for this app.
+export type Medium = 'book' | 'movie' | 'music';
+
+export interface Media {
+  id: string;
+  title: string;
+  creator: string;
+  medium: Medium;
+  year: number;
+  done: boolean; // finished/consumed
+  createdAt: number;
+}
+`,
+    rdomain: `// Pure domain logic for a media library. Side-effect free + unit-tested.
+import type { Media, Medium } from './types';
+
+export const MEDIUMS: readonly Medium[] = ['book', 'movie', 'music'];
+
+export function isMedia(v: unknown): v is Media {
+  if (typeof v !== 'object' || v === null) return false;
+  const o = v as Record<string, unknown>;
+  return (
+    typeof o.id === 'string' &&
+    typeof o.title === 'string' &&
+    typeof o.creator === 'string' &&
+    MEDIUMS.includes(o.medium as Medium) &&
+    typeof o.year === 'number' &&
+    typeof o.done === 'boolean' &&
+    typeof o.createdAt === 'number'
+  );
+}
+
+export function countByMedium(items: Media[], medium: Medium): number {
+  return items.filter((m) => m.medium === medium).length;
+}
+
+export function unfinished(items: Media[]): Media[] {
+  return items.filter((m) => !m.done);
+}
+`,
+    rstore: `// Persistence hook-in: export the type + guard for useLocalStorage.
+export type { Media as Item } from './types';
+export { isMedia as isItem } from './domain';
+`,
+    rtest: `import { describe, it, expect } from 'vitest';
+import { isMedia, countByMedium, unfinished } from '../domain';
+import type { Media } from '../types';
+
+const items: Media[] = [
+  { id: '1', title: 'The Great Gatsby', creator: 'F. Scott Fitzgerald', medium: 'book', year: 1925, done: true, createdAt: 1 },
+  { id: '2', title: 'Inception', creator: 'Christopher Nolan', medium: 'movie', year: 2010, done: false, createdAt: 2 },
+];
+
+describe('media', () => {
+  it('validates records', () => {
+    for (const it of items) expect(isMedia(it)).toBe(true);
+  });
+  it('counts by medium and finds unfinished', () => {
+    expect(countByMedium(items, 'book')).toBe(1);
+    expect(unfinished(items).length).toBe(1);
+  });
+});
+`,
+    seed: (i, names) => `({
+    title: ${JSON.stringify(names)}[i % ${names.length}] ?? 'Item',
+    creator: (['Various', 'Christopher Nolan', 'The Beatles', 'George Orwell'] as const)[i % 4] ?? 'Various',
+    medium: (['book', 'movie', 'music'] as const)[i % 3] ?? 'book',
+    year: 1950 + ((i * 7) % 75),
+    done: i % 2 === 0,
+  })`,
+    categories: ['book', 'movie', 'music'],
   },
 };
 
@@ -295,8 +614,8 @@ describe('items', () => {
   categories: [],
 };
 
-const ORDER = ['finance', 'ecommerce', 'task'];
-const GUARD_TO_KEY = { isExpense: 'finance', isProduct: 'ecommerce', isTask: 'task', isItem: 'generic' };
+const ORDER = ['finance', 'ecommerce', 'task', 'library', 'booking', 'crm', 'fitness'];
+const GUARD_TO_KEY = { isExpense: 'finance', isProduct: 'ecommerce', isTask: 'task', isBooking: 'booking', isContact: 'crm', isWorkout: 'fitness', isMedia: 'library', isItem: 'generic' };
 
 export function detectDomain(text) {
   const lower = text.toLowerCase();

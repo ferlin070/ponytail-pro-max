@@ -11,7 +11,7 @@ Every time a competition brief lands, you waste 30+ minutes setting up:
 TypeScript, Vitest, accessibility patterns, error handling, CSS tokens.
 This template has all of that pre-wired. Clone it, build your app, ship.
 
-## The 7 weapons
+## The 10 weapons
 
 | File | What it does | Competition value |
 |---|---|---|
@@ -21,6 +21,10 @@ This template has all of that pre-wired. Clone it, build your app, ship.
 | `lib/render.ts` | escapeHtml, formatDate, stars, debounce | XSS prevention + DRY helpers |
 | `lib/validate.ts` | Composable validators (isString, isOneOf, validateObject) | Schema validation without a library |
 | `lib/dom.ts` | $, $$, delegate, html builder | Less boilerplate, cleaner event wiring |
+| `lib/seed.ts` | makeSeed, daysAgoISO starter data | Demo data in seconds |
+| `lib/csv.ts` | toCsv, parseCsv | CSV import/export, no dependency |
+| `lib/router.ts` | parseHash, navigate, createRouter | Multi-page apps from a hash router |
+| `lib/chart.ts` | barChart, sparkline (SVG, a11y labels) | Charts without a chart library |
 | `lib/style.css` | Design tokens, component primitives, a11y utilities | Consistent design, `.sr-only`, focus-visible |
 
 ## Quick start
@@ -48,20 +52,22 @@ git remote remove origin
 |---|---|
 | `npm run dev` | Vite dev server |
 | `npm test` | Unit tests (Vitest + jsdom) |
+| `npm run test:coverage` | Unit tests + v8 coverage thresholds |
 | `npm run test:a11y` | Accessibility tests (axe patterns) |
 | `npm run test:a11y:scan` | **Real axe-core scan of the built app DOM — 0 violations required** |
 | `npm run typecheck` | Strict TypeScript check |
 | `npm run build` | Type-check + production build |
 | `npm run size` | Check if source is under the byte cap (pass yours: `npm run size -- 40`) |
-| `npm run verify` | **All gates in one command** (template guard, typecheck, test, a11y, a11y scan, build, size, git status) — run before every push |
+| `npm run verify` | **All gates in one command** (template guard, typecheck, test, coverage, a11y, a11y scan, build, size, git status) — run before every push |
 | `npm run init` | Scaffold a real app (replace demo, create module stubs, rename package) |
-| `npm run brief "<text>"` | **Brief → scaffold**: PRD.md + DESIGN.md (picked by keyword) + real domain model (finance/ecommerce/task/generic) with unit tests. Detects Bahasa Melayu → Malay PRD (`--lang ms`) |
+| `npm run scaffold "<brief>" [design] [count]` | **One command to a working app**: brief (PRD/DESIGN/domain+store) + seed + README header |
+| `npm run brief "<text>"` | **Brief → scaffold**: PRD.md + DESIGN.md (picked by keyword) + real domain model (finance/ecommerce/task/library/booking/crm/fitness/generic) with unit tests. Detects Bahasa Melayu → Malay PRD (`--lang ms`) |
 | `npm run seed` | Domain-aware starter data via `makeSeed` + DESIGN.md if missing |
 | `npm run audit` | Self-score against the rubric (Completeness / P&D / Craft) — fix the ❌ rows |
-| `npm run submit` | One-command submission pack: `SUBMIT_URL=https://… npm run submit` → SUBMISSION.md (score, size, commits, checklist) |
+| `npm run submit` | One-command submission pack: URL auto-detected (Netlify/GitHub Pages) or `SUBMIT_URL=https://…` → SUBMISSION.md (score, size, commits, checklist, screenshots) |
 | `npm run e2e` | **Real-browser E2E**: builds, serves, drives Chromium (CRUD flow + axe on the live page) |
 | `npm run demo` | Golden kitchen-sink demo page — every lib weapon working live |
-| `npm run deploy` | Build + deploy: `[netlify\|vercel\|docker\|ssh]` — docker: `DOCKER_IMAGE=… npm run deploy -- docker`, ssh: `SSH_HOST=… SSH_DIR=/var/www/html npm run deploy -- ssh` |
+| `npm run deploy` | Build + deploy: `[netlify\|vercel\|docker\|ssh\|github-pages]` — docker: `DOCKER_IMAGE=… npm run deploy -- docker`, ssh: `SSH_HOST=… SSH_DIR=/var/www/html npm run deploy -- ssh` |
 
 ## Workflow from a brief (90 minutes)
 
@@ -69,13 +75,13 @@ git remote remove origin
 npx degit ferlin070/ponytail-pro-max my-app
 cd my-app
 npm install
-npm run brief "Expense tracker in Malay with categories and CSV export"
-#  → PRD.md checklist (Malay), DESIGN.md (fintech), types/schema/storage stubs, schema.test.ts
-npm run seed          # starter data + seed test
+npm run scaffold "Expense tracker in Malay with categories and CSV export"
+#  → PRD.md checklist (Malay), DESIGN.md (fintech), types/schema/storage stubs,
+#    schema.test.ts, seed data, README header — in one command
 npm run dev           # build your app to the PRD checklist
 npm run audit         # self-score → fix ❌ rows
 npm run e2e           # real-browser flow + axe scan
-npm run submit        # SUBMISSION.md pack (SUBMIT_URL=https://your-app.netlify.app)
+npm run submit        # SUBMISSION.md pack (URL auto-detected or SUBMIT_URL=…)
 npm run verify        # all gates
 # push early, keep it verified; CI auto-deploys to Netlify if secrets are set
 ```
@@ -98,18 +104,31 @@ SSH_HOST=1.2.3.4 SSH_USER=root SSH_DIR=/var/www/html npm run deploy -- ssh
 
 `nginx.conf` (repo root) serves the SPA with `try_files … /index.html` fallback, gzip, and long-lived asset caching. Copy it into your server's nginx site config.
 
+## PWA / offline
+
+`public/` ships a web manifest (`manifest.webmanifest`), an app icon (`icon.svg`), and a minimal service worker (`sw.js`). The SW caches the app shell on install, serves network-first with a cache fallback, and is registered automatically in `npm run init` scaffolds — install the app to the home screen and it works offline.
+
 ## Speed start (real app in one step)
 
 ```bash
 npx degit ferlin070/ponytail-pro-max my-app
 cd my-app
 npm install
-npm run init my-inventory-log     # replaces the demo, creates types/schema/storage stubs
+npm run scaffold "inventory log with barcode search"   # brief + domain + seed + README
 npm run dev
 ```
 
-`init` writes a clean CRUD skeleton already wired to the 7 weapons, renames the
+Or two-step (choose your own design):
+
+```bash
+npm run brief "inventory log with barcode search" landing
+npm run seed
+npm run dev
+```
+
+`init` writes a clean CRUD skeleton already wired to the weapons, renames the
 package, and arms the "template guard" so CI blocks pushing the untouched demo.
+`scaffold` chains brief + seed + a README header into one command.
 
 ## React + Tailwind variant
 

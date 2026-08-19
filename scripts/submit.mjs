@@ -36,8 +36,19 @@ const sizeLines = (size.out || '').split('\n').filter((l) => /TOTAL|LIMIT|UNDER|
 // git log
 const git = run('git', ['log', '--oneline', '-10']);
 
-// URL
-const url = process.env.SUBMIT_URL || 'https://your-app.netlify.app';
+// URL: SUBMIT_URL wins; else auto-detect from netlify state or GitHub Pages remote.
+const stateFile = join(ROOT, '.netlify/state.json');
+let url = process.env.SUBMIT_URL || '';
+if (!url && existsSync(stateFile)) {
+  const siteUrl = JSON.parse(readFileSync(stateFile, 'utf8')).site?.url ?? '';
+  if (/^https?:\/\//.test(siteUrl)) url = siteUrl;
+}
+if (!url) {
+  const remote = run('git', ['remote', 'get-url', 'origin']).out;
+  const m = /github\.com[:/]([^/]+)\/([^/]+?)(?:\.git)?$/.exec(remote);
+  if (m) url = `https://${m[1]}.github.io/${m[2]}/`;
+}
+url = url || 'https://your-app.netlify.app';
 
 // feature checklist from PRD
 const prd = existsSync(join(ROOT, 'PRD.md')) ? readFileSync(join(ROOT, 'PRD.md'), 'utf8') : null;

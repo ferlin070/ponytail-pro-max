@@ -126,6 +126,11 @@ function boot(): void {
     }
   });
 
+  // offline PWA: register the service worker (progressive enhancement)
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  }
+
   render();
 }
 
@@ -138,6 +143,15 @@ if (existsSync(htmlPath)) {
   writeFileSync(
     htmlPath,
     readFileSync(htmlPath, 'utf8').replace(/<title>.*?<\/title>/, `<title>${pkg.name}</title>`),
+  );
+}
+
+// 4b. axe scan harness hardcodes the template title — patch it too
+const scanPath = join(ROOT, 'src/tests/a11y.scan.test.ts');
+if (existsSync(scanPath)) {
+  writeFileSync(
+    scanPath,
+    readFileSync(scanPath, 'utf8').replace(/document\.title = '[^']*';/, `document.title = '${pkg.name}';`),
   );
 }
 

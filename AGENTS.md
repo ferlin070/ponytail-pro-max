@@ -194,20 +194,25 @@ Static rules above are the baseline. When a brief matches a category below, FETC
 | `isString, isOneOf, validateObject` from `./lib/validate` | Composable validators |
 | `$, $$, delegate, html` from `./lib/dom` | DOM utilities |
 | `makeSeed, daysAgoISO` from `./lib/seed` | Realistic starter data |
+| `toCsv, parseCsv` from `./lib/csv` | CSV import/export without a library |
+| `parseHash, navigate, createRouter` from `./lib/router` | Hash router (multi-page) |
+| `barChart, sparkline` from `./lib/chart` | Dependency-free SVG charts (a11y labels) |
 
 ## TOOLS (npm scripts)
 
 | Command | What |
 |---|---|
 | `npm run init` | Scaffold fresh CRUD shell from template (idempotent) |
-| `npm run brief "<text>" [design]` | PRD.md + DESIGN.md + real domain model (finance/ecommerce/task/generic) with unit tests; detects Bahasa Melayu → Malay PRD (`--lang ms`) |
+| `npm run scaffold "<brief>" [design] [count]` | One command to a working app: brief + seed + README header |
+| `npm run brief "<text>" [design]` | PRD.md + DESIGN.md + real domain model (finance/ecommerce/task/library/booking/crm/fitness/generic) with unit tests; detects Bahasa Melayu → Malay PRD (`--lang ms`) |
 | `npm run seed [count]` | Domain-aware seed data via makeSeed + self-validating test |
 | `npm run audit [kb] [--fail]` | Self-score Completeness/P&S/Craft + size; `--fail` gates CI |
-| `npm run submit` | SUBMISSION.md pack incl. screenshots (URL via `SUBMIT_URL=…`) |
+| `npm run submit` | SUBMISSION.md pack incl. screenshots (URL via `SUBMIT_URL=…` or auto-detected) |
 | `npm run e2e` | Real-browser flow (build → serve → Chromium CRUD + axe) + screenshots → artifacts/ |
 | `npm run demo` | Golden kitchen-sink demo of every weapon (vite demo) |
-| `npm run verify` | All gates: typecheck, test, build, size, a11y, a11y-scan, assert-app |
-| `npm run deploy` | Netlify/Vercel/Docker/SSH deploy (portable); docker: `DOCKER_IMAGE=…`, ssh: `SSH_HOST=… SSH_DIR=…` |
+| `npm run test:coverage` | v8 coverage thresholds on lib + schema/seed |
+| `npm run verify` | All gates: typecheck, test, coverage, build, size, a11y, a11y-scan, assert-app |
+| `npm run deploy` | Netlify/Vercel/Docker/SSH/GitHub Pages deploy (portable); docker: `DOCKER_IMAGE=…`, ssh: `SSH_HOST=… SSH_DIR=…` |
 
 CI (`.github/workflows/ci.yml`): runs `npm run verify` + `npm run audit -- --fail` on every push; status badge in README.
 
