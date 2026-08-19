@@ -12,7 +12,6 @@ import { join } from 'node:path';
 import { detectByGuard, detectDomain } from './lib/domains.mjs';
 
 const ROOT = process.cwd();
-const IS_WIN = process.platform === 'win32';
 const raw = process.argv[2] ?? '';
 const design = process.argv[3] ?? '';
 const count = process.argv[4] ?? '8';
@@ -22,8 +21,10 @@ if (!raw.trim()) {
   process.exit(1);
 }
 
+// Direct spawn (no shell): shell:true on Windows concatenates args without
+// quoting, which splits multi-word briefs. `node` needs no shell anyway.
 const run = (cmd, args) => {
-  const r = spawnSync(cmd, args, { stdio: 'inherit', shell: IS_WIN });
+  const r = spawnSync(cmd, args, { stdio: 'inherit' });
   if (r.status !== 0) process.exit(r.status ?? 1);
 };
 

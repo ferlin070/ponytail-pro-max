@@ -1230,7 +1230,7 @@ export function seedDataTemplate(domain, count) {
   const cats = domain.categories ?? [];
   const factory = domain.seed ?? GENERIC.seed;
   const guard = `is${kind}`;
-  const body = factory('i', 'NAMES', 'CATEGORIES', 'daysAgoISO');
+  const body = factory('i', names, cats, 'daysAgoISO');
   const dateImport = body.includes('daysAgoISO') ? ', daysAgoISO' : '';
   return `// Starter data for this app. Edit freely — fields must match the guard in src/storage.ts.
 import { makeSeed${dateImport} } from './lib/seed';

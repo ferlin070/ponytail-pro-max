@@ -5,6 +5,26 @@ import { createState } from '../src/lib/state';
 import { createStore } from '../src/lib/storage';
 import { isString, isOneOf, validateObject } from '../src/lib/validate';
 import { makeSeed } from '../src/lib/seed';
+import { createI18n } from '../src/lib/i18n';
+
+// ---- i18n: persisted language switch ----
+const i18n = createI18n({
+  en: { hello: 'Hello', switchLang: 'Switch to BM', langLabel: 'en' },
+  ms: { hello: 'Halo', switchLang: 'Tukar ke EN', langLabel: 'ms' },
+});
+const $hello = $('#i18n-hello')!;
+const $langToggle = $('#lang-toggle')!;
+const $langOut = $('#lang-out')!;
+function renderLang() {
+  $hello.textContent = i18n.t('hello') + ' — sahabat!';
+  $langToggle.textContent = i18n.t('switchLang');
+  $langOut.textContent = i18n.t('langLabel');
+}
+delegate('click', '#lang-toggle', () => {
+  i18n.lang = i18n.lang === 'en' ? 'ms' : 'en';
+  renderLang();
+});
+renderLang();
 
 // ---- createStore: typed, error-safe CRUD + persistence ----
 interface Item { id: string; name: string; createdAt: number; }

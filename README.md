@@ -11,7 +11,7 @@ Every time a competition brief lands, you waste 30+ minutes setting up:
 TypeScript, Vitest, accessibility patterns, error handling, CSS tokens.
 This template has all of that pre-wired. Clone it, build your app, ship.
 
-## The 10 weapons
+## The 11 weapons
 
 | File | What it does | Competition value |
 |---|---|---|
@@ -25,6 +25,7 @@ This template has all of that pre-wired. Clone it, build your app, ship.
 | `lib/csv.ts` | toCsv, parseCsv | CSV import/export, no dependency |
 | `lib/router.ts` | parseHash, navigate, createRouter | Multi-page apps from a hash router |
 | `lib/chart.ts` | barChart, sparkline (SVG, a11y labels) | Charts without a chart library |
+| `lib/i18n.ts` | createI18n (en/ms switch, persisted) | Localised apps for Malay briefs |
 | `lib/style.css` | Design tokens, component primitives, a11y utilities | Consistent design, `.sr-only`, focus-visible |
 
 ## Quick start
@@ -128,6 +129,18 @@ npm run dev
 
 `init` writes a clean CRUD skeleton already wired to the weapons, renames the
 package, and arms the "template guard" so CI blocks pushing the untouched demo.
+
+## CI gates
+
+Three workflows run on every push to `main`:
+
+| Workflow | Gates |
+|---|---|
+| `ci` | `npm run verify` (typecheck, test, coverage, axe, build, size, git clean) + `npm run audit -- --fail` |
+| `lighthouse` | Real Lighthouse run against the built app — performance ≥ 50, accessibility ≥ 90, best-practices ≥ 80, seo ≥ 80 |
+| `deploy-pages` | Builds and publishes `dist/` to GitHub Pages |
+
+To enable the Pages deployment, open repo **Settings → Pages → Build and deployment → Source: "GitHub Actions"** once. The deployed URL (`https://<user>.github.io/<repo>/`) is auto-detected by `npm run submit`.
 `scaffold` chains brief + seed + a README header into one command.
 
 ## React + Tailwind variant

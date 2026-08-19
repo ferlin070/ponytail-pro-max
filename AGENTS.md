@@ -197,6 +197,7 @@ Static rules above are the baseline. When a brief matches a category below, FETC
 | `toCsv, parseCsv` from `./lib/csv` | CSV import/export without a library |
 | `parseHash, navigate, createRouter` from `./lib/router` | Hash router (multi-page) |
 | `barChart, sparkline` from `./lib/chart` | Dependency-free SVG charts (a11y labels) |
+| `createI18n` from `./lib/i18n` | Persisted language switch (en/ms), safe fallbacks |
 
 ## TOOLS (npm scripts)
 
@@ -214,7 +215,9 @@ Static rules above are the baseline. When a brief matches a category below, FETC
 | `npm run verify` | All gates: typecheck, test, coverage, build, size, a11y, a11y-scan, assert-app |
 | `npm run deploy` | Netlify/Vercel/Docker/SSH/GitHub Pages deploy (portable); docker: `DOCKER_IMAGE=…`, ssh: `SSH_HOST=… SSH_DIR=…` |
 
-CI (`.github/workflows/ci.yml`): runs `npm run verify` + `npm run audit -- --fail` on every push; status badge in README.
+CI (`.github/workflows/ci.yml`): runs `npm run verify` + `npm run audit -- --fail` on every push; status badge in README. Also shipped:
+- `.github/workflows/lighthouse.yml` — Lighthouse gates (performance ≥ 50, accessibility ≥ 90, best-practices ≥ 80, seo ≥ 80) via `scripts/lighthouse-gate.mjs`.
+- `.github/workflows/deploy-pages.yml` — builds + deploys `dist/` to GitHub Pages (needs Settings → Pages → Source: "GitHub Actions"). Deployed URL is auto-detected by `npm run submit`.
 
 React variant lives in `react-tailwind/` — same tools ported (brief/seed/audit/submit/verify), hooks version of the weapons, Tailwind v4 theme with AA contrast.
 

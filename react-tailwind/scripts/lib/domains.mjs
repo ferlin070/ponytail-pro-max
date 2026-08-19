@@ -638,8 +638,10 @@ export function seedDataTemplateReact(domain, count) {
   const cats = domain.categories ?? [];
   const factory = domain.seed ?? GENERIC.seed;
   const guard = `is${kind}`;
+  const body = factory('i', names, cats, 'daysAgoISO');
+  const dateImport = body.includes('daysAgoISO') ? ', daysAgoISO' : '';
   return `// Starter data for this app. Edit freely â€” fields must match the guard in src/store.ts.
-import { makeSeed, daysAgoISO } from './lib/seed';
+import { makeSeed${dateImport} } from './lib/seed';
 import { ${guard} } from './domain';
 import type { ${kind} } from './types';
 
@@ -647,11 +649,8 @@ export type SeedItem = ${kind};
 
 export { ${guard} as isSeedItem };
 
-const NAMES = ${JSON.stringify(names)};
-const CATEGORIES = ${JSON.stringify(cats)};
-
 export function seedItems(count: number = ${count}): SeedItem[] {
-  return makeSeed<SeedItem>(count, (i) => ${factory('i', 'NAMES', 'CATEGORIES', 'daysAgoISO')});
+  return makeSeed<SeedItem>(count, (i) => ${body});
 }
 `;
 }
