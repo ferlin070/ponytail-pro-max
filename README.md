@@ -55,13 +55,13 @@ git remote remove origin
 | `npm run size` | Check if source is under the byte cap (pass yours: `npm run size -- 40`) |
 | `npm run verify` | **All gates in one command** (template guard, typecheck, test, a11y, a11y scan, build, size, git status) — run before every push |
 | `npm run init` | Scaffold a real app (replace demo, create module stubs, rename package) |
-| `npm run brief "<text>"` | **Brief → scaffold**: PRD.md + DESIGN.md (picked by keyword) + domain stubs + checklist. Detects Bahasa Melayu → Malay PRD (`--lang ms`) |
-| `npm run seed` | Starter data via `makeSeed` + DESIGN.md if missing |
+| `npm run brief "<text>"` | **Brief → scaffold**: PRD.md + DESIGN.md (picked by keyword) + real domain model (finance/ecommerce/task/generic) with unit tests. Detects Bahasa Melayu → Malay PRD (`--lang ms`) |
+| `npm run seed` | Domain-aware starter data via `makeSeed` + DESIGN.md if missing |
 | `npm run audit` | Self-score against the rubric (Completeness / P&D / Craft) — fix the ❌ rows |
 | `npm run submit` | One-command submission pack: `SUBMIT_URL=https://… npm run submit` → SUBMISSION.md (score, size, commits, checklist) |
 | `npm run e2e` | **Real-browser E2E**: builds, serves, drives Chromium (CRUD flow + axe on the live page) |
 | `npm run demo` | Golden kitchen-sink demo page — every lib weapon working live |
-| `npm run deploy` | Build + deploy to Netlify/Vercel for an early URL |
+| `npm run deploy` | Build + deploy: `[netlify\|vercel\|docker\|ssh]` — docker: `DOCKER_IMAGE=… npm run deploy -- docker`, ssh: `SSH_HOST=… SSH_DIR=/var/www/html npm run deploy -- ssh` |
 
 ## Workflow from a brief (90 minutes)
 
@@ -79,6 +79,24 @@ npm run submit        # SUBMISSION.md pack (SUBMIT_URL=https://your-app.netlify.
 npm run verify        # all gates
 # push early, keep it verified; CI auto-deploys to Netlify if secrets are set
 ```
+
+## Self-hosted deploy
+
+The template ships with nginx config so you can host it anywhere:
+
+```bash
+# Docker (any VPS with Docker — run from the repo root)
+DOCKER_IMAGE=ghcr.io/you/ponytail-app npm run deploy -- docker
+docker run -p 8080:80 ghcr.io/you/ponytail-app
+
+# Push the image to a registry so other machines can pull it
+DOCKER_PUSH=1 npm run deploy -- docker
+
+# SSH + nginx (rsync dist/ to a VPS; falls back to scp on Windows)
+SSH_HOST=1.2.3.4 SSH_USER=root SSH_DIR=/var/www/html npm run deploy -- ssh
+```
+
+`nginx.conf` (repo root) serves the SPA with `try_files … /index.html` fallback, gzip, and long-lived asset caching. Copy it into your server's nginx site config.
 
 ## Speed start (real app in one step)
 

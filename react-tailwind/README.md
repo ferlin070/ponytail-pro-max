@@ -27,7 +27,7 @@ npm run build        # tsc + vite build
 npm run size         # check source bytes against the cap (pass yours: npm run size -- 40)
 npm run init my-app  # scaffold a real app (replaces demo, domain stubs, .ponytail-ready)
 npm run verify       # all gates in one command
-npm run deploy       # build + deploy to Netlify/Vercel for an early URL
+npm run deploy       # build + deploy to Netlify/Vercel/Docker/SSH
 ```
 
 ## Starting a new React app

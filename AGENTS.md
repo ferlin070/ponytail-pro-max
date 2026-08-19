@@ -207,7 +207,7 @@ Static rules above are the baseline. When a brief matches a category below, FETC
 | `npm run e2e` | Real-browser flow (build → serve → Chromium CRUD + axe) + screenshots → artifacts/ |
 | `npm run demo` | Golden kitchen-sink demo of every weapon (vite demo) |
 | `npm run verify` | All gates: typecheck, test, build, size, a11y, a11y-scan, assert-app |
-| `npm run deploy` | Netlify/Vercel deploy (portable) |
+| `npm run deploy` | Netlify/Vercel/Docker/SSH deploy (portable); docker: `DOCKER_IMAGE=…`, ssh: `SSH_HOST=… SSH_DIR=…` |
 
 CI (`.github/workflows/ci.yml`): runs `npm run verify` + `npm run audit -- --fail` on every push; status badge in README.
 
